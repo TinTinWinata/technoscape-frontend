@@ -1,27 +1,24 @@
 import { ChangeEvent } from 'react';
 import { FcMultipleDevices } from 'react-icons/fc';
-import { useNavigate } from 'react-router-dom';
 import Button, { ButtonType } from '../components/button';
 import Navbar from '../components/navbar';
 import { useLoan } from '../hooks/loan-context';
-import useLoading from '../hooks/useLoading';
 import { useUserAuth } from '../hooks/user-context';
 import { IRequestLoanForm } from '../interfaces/loan-interface';
+import { manipulateRangeLoan } from '../utils/stringManipulation';
 
 export const RequestLoan = () => {
-  const { isLoading, onStart, onFinish } = useLoading();
-  const navigate = useNavigate();
   const { user } = useUserAuth();
   const { createLoanApproval } = useLoan();
 
   const requestLoan = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!user) return;
     const { loan_amount, loan_days_term } = e.target;
     const loanData: IRequestLoanForm = {
       loan_amount: loan_amount.value,
-      loan_days_term: loan_days_term.value,
-      uid: 66,
-      receiverAccountNo: 5859458619142490,
+      loan_days_term: manipulateRangeLoan(loan_days_term.value),
+      user: user.uid,
     };
     await createLoanApproval(loanData);
   };
@@ -33,9 +30,9 @@ export const RequestLoan = () => {
         <div className="w-[80%] bg-white d-flex rounded-2xl shadow-2xl p-8">
           <div className="w-full flex flex-row justify-between pb-4 border-b border-gray-500">
             <div>
-              <p className="font-bold text-4xl text-font">Meminta Peminjaman</p>
-              <p className="mt-2 text-gray-500 font-secondaryFont">
-                Pinjaman Cepat & Mudah untuk Kebutuhan Anda
+              <p className="font-bold text-4xl text-font">Request Loan</p>
+              <p className="font-secondaryFont">
+                Quick & Easy Loans for Your Needs
               </p>
             </div>
             <div className="flex justify-center items-center">
@@ -43,24 +40,24 @@ export const RequestLoan = () => {
             </div>
           </div>
           <form onSubmit={requestLoan}>
-            <div className="flex flex-col mt-7 gap-2">
+            <div className="flex flex-col mt-4 gap-2">
               <label htmlFor="amount" className="font-bold text-font">
-                Jumlah
+                Amount
               </label>
               <input
                 name="loan_amount"
                 type="number"
-                className="rounded-md focus:outline-none py-2 px-4 border border-gray-500 border-opacity-30"
+                className="rounded p-2 border border-gray-500"
               />
             </div>
-            <div className="flex flex-col mb-4 mt-7 gap-2">
+            <div className="flex flex-col my-4 gap-2">
               <label htmlFor="range" className="font-bold text-font">
-                Rentang Peminjaman
+                Loan Range
               </label>
               <select
                 name="loan_days_term"
                 id=""
-                className="rounded-md focus:outline-none py-2 px-4 border border-gray-500 border-opacity-30"
+                className="rounded p-2 border border-gray-500"
               >
                 <option value="6">6 bulan</option>
                 <option value="9">9 bulan</option>

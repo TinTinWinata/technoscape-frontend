@@ -4,12 +4,14 @@ import useLoading from "./useLoading";
 import { useNavigate } from "react-router-dom";
 import Service from "../utils/service";
 import { useUserAuth } from "./user-context";
-import { IRequestLoanForm } from "../interfaces/loan-interface";
+import { IGetLoan, IRequestLoanForm } from "../interfaces/loan-interface";
 import { IBackendInterface } from "../interfaces/backend/backend-response-interface";
 import { endpoints } from "../settings/endpoint";
+import { IParameter } from "../utils/parameter";
 
 interface ILoanContext {
     createLoanApproval: (loanData: IRequestLoanForm) => Promise<void>;
+    getLoan: () => Promise<IGetLoan>;
 }
 
 const loanContext = createContext({} as ILoanContext);
@@ -19,23 +21,20 @@ type ContentLayout = {
 };
 
 export function LoanProvider({ children }: ContentLayout) {
-    // const { user } = useUserAuth();
+    const { user } = useUserAuth();
     const { onStart, onFinish } = useLoading();
     const navigate = useNavigate();
-    const service: Service = new Service(undefined, true);
 
     const createLoanApproval = async (
         loanData: IRequestLoanForm
     ): Promise<void> => {
-        console.log("tester");
         onStart("Request");
+        const service = new Service(user?.accessToken);
         const response = await service.request<IBackendInterface<any>>(
             endpoints.loan.crateLoanApproval,
             "",
             loanData
         );
-
-        console.log(response);
 
         if (response.success) {
             onFinish("Succesfully request", true);
@@ -45,8 +44,24 @@ export function LoanProvider({ children }: ContentLayout) {
         }
     };
 
+    const getLoan = async (): Promise<IGetLoan> => {
+        const service = new Service(user?.accessToken);
+
+        const parameters: IParameter[] = [
+            { name: "user_id", value: user?.uid },
+        ];
+        const response = await service.request<any>(
+            endpoints.loan.getLoan,
+            undefined,
+            "",
+            parameters
+        );
+        console.log(response.data);
+        return response.data;
+    };
+
     return (
-        <loanContext.Provider value={{ createLoanApproval }}>
+        <loanContext.Provider value={{ createLoanApproval, getLoan }}>
             {children}
         </loanContext.Provider>
     );
