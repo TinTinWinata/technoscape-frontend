@@ -45,10 +45,9 @@ export function UserProvider({ children }: ContentLayout) {
       undefined,
       form
     );
-    console.log(response);
     if (response.success) {
       toastUpdateSuccess(toastId, 'Succesfuly register account');
-      navigate('/home');
+      navigate('/login');
     } else {
       toastUpdateFailed(toastId, response.errorMessage);
     }
@@ -61,6 +60,7 @@ export function UserProvider({ children }: ContentLayout) {
       '',
       form
     );
+    console.log(response);
     if (response.success) {
       saveToStorage(response.data);
       toastUpdateSuccess(toastId, 'Succesfully Login');
