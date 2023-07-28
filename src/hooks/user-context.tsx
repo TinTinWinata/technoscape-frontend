@@ -13,6 +13,7 @@ import Service from '../utils/service';
 import useLoading from './useLoading';
 
 interface IUserContext {
+  logout: () => void;
   login: (form: ILoginForm) => Promise<void>;
   isAuth: () => boolean;
   user: ISession | null;
@@ -53,6 +54,12 @@ export function UserProvider({ children }: ContentLayout) {
     }
   };
 
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
   const login = async (form: ILoginForm): Promise<void> => {
     const toastId = toastLoading('We were signing you up');
     const response = await service.request<ISession>(
@@ -60,7 +67,6 @@ export function UserProvider({ children }: ContentLayout) {
       '',
       form
     );
-    console.log(response);
     if (response.success) {
       saveToStorage(response.data);
       toastUpdateSuccess(toastId, 'Succesfully Login');
@@ -77,6 +83,7 @@ export function UserProvider({ children }: ContentLayout) {
     }
   };
   const saveToStorage = (user: ISession) => {
+    setUser(user);
     localStorage.setItem('user', JSON.stringify(user));
   };
 
@@ -88,7 +95,9 @@ export function UserProvider({ children }: ContentLayout) {
   };
 
   return (
-    <userContext.Provider value={{ register, login, user, isAuth, fetchUser }}>
+    <userContext.Provider
+      value={{ logout, register, login, user, isAuth, fetchUser }}
+    >
       {children}
     </userContext.Provider>
   );

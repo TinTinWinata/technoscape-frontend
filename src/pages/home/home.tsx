@@ -21,7 +21,7 @@ export default function Home() {
             <div className="flex justify-center absolute top-20 w-full z-10 ">
                 <div className="w-[80%] d-flex">
                     <div className="w-full bg-white rounded-xl custom-shadow">
-                        <div className="flex mt-8">
+                        <div className="flex">
                             <div className="w-[350px] font-bold bg-primary rounded-br-[50px] rounded-tr-[5px] rounded-l-xl text-white col-span-1">
                                 <div className="p-4">
                                     <div className="h-5">
@@ -46,7 +46,7 @@ export default function Home() {
                                         link="/transfer"
                                         color="green"
                                         icon={
-                                            <FcMoneyTransfer className="w-full h-full" />
+                                            <FcMoneyTransfer className="w-full absolute z-10 h-full" />
                                         }
                                         name="Transfer"
                                     />
@@ -54,23 +54,23 @@ export default function Home() {
                                         link="/request-loan"
                                         color="red"
                                         icon={
-                                            <FcMultipleDevices className="w-full h-full" />
+                                            <FcMultipleDevices className="w-full absolute z-10 h-full" />
                                         }
-                                        name="Meminta Peminjaman"
+                                        name="Peminjaman"
                                     />
                                     <HomeIcon
                                         link="/pay-loan"
                                         color="blue"
                                         icon={
-                                            <FcDebt className="w-full h-full" />
+                                            <FcDebt className="w-full absolute z-10 h-full" />
                                         }
                                         name="Bayar Peminjaman"
                                     />
                                     <HomeIcon
-                                        link="/profile"
+                                        link="/activate-profile"
                                         color="blue"
                                         icon={
-                                            <FcPortraitMode className="w-full h-full" />
+                                            <FcPortraitMode className="w-full absolute z-10 h-full" />
                                         }
                                         name="Validasi Akun"
                                     />

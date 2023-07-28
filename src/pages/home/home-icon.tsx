@@ -12,14 +12,15 @@ export default function HomeIcon({ link, color, icon, name }: IHomeIconProps) {
   const handleClick = () => {
     navigate(link);
   };
+
   return (
     <div
       onClick={handleClick}
       className="w-full h-full flex flex-col justify-center items-center cursor-pointer"
     >
-      <div className="relative center w-20 h-20">
+      <div className={`relative center w-[65px] h-[60px]`}>
         <div
-          className={`absolute top-0 left-0 w-full h-full z-0  rounded-full bg-opacity-30`}
+          className={`abs-center left-0 w-[100%] h-[100%]  z-0 bg-primary  rounded-full bg-opacity-30`}
         ></div>
         <div className="absolute top-0 left-0 w-full h-full z-10"></div>
         {icon}
