@@ -1,28 +1,32 @@
 import { ChangeEvent } from 'react';
 import { BsFillCreditCard2FrontFill } from 'react-icons/bs';
-import { MdEmail } from 'react-icons/md';
+import { MdEmail, MdPerson } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Form from '../components/form';
 import Input from '../components/input';
 import RadioButton from '../components/radio-button';
-import useLoading from '../hooks/useLoading';
 import { useUserAuth } from '../hooks/user-context';
-import { ILoginForm } from '../interfaces/user-interface';
+import { IRegisterForm } from '../interfaces/backend/register-form-interface';
 
 export default function Register() {
-  const { login } = useUserAuth();
-  const { isLoading, onStart, onFinish } = useLoading();
-  const navigate = useNavigate();
+  const { register } = useUserAuth();
 
-  const handleLogin = async (e: ChangeEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { email, password } = e.target;
-    const dataForm: ILoginForm = {
+    const { ktpId, email, password, pin, gender, username } = e.target;
+    const dataForm: IRegisterForm = {
+      birthDate: '12121993',
       email: email.value,
-      password: password.value,
+      gender: gender.value === 'Male' ? '1' : '0',
+      ktpId: ktpId.value,
+      loginPassword: password.value,
+      phoneNumber: '087878766892',
+      pin: pin.value,
+      username: username.value,
     };
-    await login(dataForm);
+    console.log(dataForm);
+    await register(dataForm);
   };
 
   return (
@@ -31,9 +35,15 @@ export default function Register() {
         title="Create New Account"
         subTitle="Create your own credentials to access our application."
         width="450"
-        onSubmit={handleLogin}
+        onSubmit={handleRegister}
         buttonName="Create Account"
       >
+        <Input
+          icon={<MdPerson />}
+          label="Enter your Username"
+          type="text"
+          name="username"
+        />
         <Input
           icon={<MdEmail />}
           label="Enter your email"
@@ -58,7 +68,8 @@ export default function Register() {
           type="password"
           name="pin"
         />
-        <RadioButton names={['Male', 'Female']} />
+
+        <RadioButton names={['Male', 'Female']} id="gender" />
       </Form>
       <div className="text-sm mt-5 center gap-1">
         <p className="text-secondaryFont">Already have account ?</p>

@@ -1,8 +1,8 @@
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
 
+import { IBackendInterface } from "../interfaces/backend/backend-response-interface";
 import { Endpoint, Method } from "../settings/endpoint";
-import { IResponseType } from "../types/response";
 import type { IParameter } from "./parameter";
 import { Parameter } from "./parameter";
 
@@ -44,29 +44,28 @@ class Service {
         id: string = "",
         data: any = {},
         parameters: IParameter[] = []
-    ) {
-        let result: IResponseType<T> = {
-            data: "Server error please contact Blue Jacket Team",
-            isError: true,
-        };
-        try {
-            let url = `${endpoint.url}/${id}`;
-            if (parameters.length > 0) {
-                const parameterService = new Parameter(url, parameters);
-                url = parameterService.getUrl();
-            }
-            const response = await this.getResponse(endpoint.method, data, url);
-            result = {
-                data: response.data,
-                isError: false,
-            };
-        } catch (error) {
-            const { response } = error as any;
-            if (response && response.data) {
-                result = { data: response.data.detail, isError: true };
-            }
+    ): Promise<IBackendInterface<T>> {
+        let url = `${endpoint.url}/${id}`;
+        if (parameters.length > 0) {
+            const parameterService = new Parameter(url, parameters);
+            url = parameterService.getUrl();
         }
-        return result;
+        try {
+            return (await this.getResponse(
+                endpoint.method,
+                data,
+                url
+            )) as IBackendInterface<T>;
+        } catch (err) {
+            const { response } = err as any;
+            return {
+                data: undefined,
+                errorMessage: response.data
+                    ? response.data.errorMessage
+                    : "Error Please contact Blue Jacket Team.",
+                success: false,
+            } as IBackendInterface<T>;
+        }
     }
 }
 

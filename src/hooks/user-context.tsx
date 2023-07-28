@@ -1,14 +1,17 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { IBackendInterface } from '../interfaces/backend/backend-response-interface';
+import { IRegisterForm } from '../interfaces/backend/register-form-interface';
 import { ILoginForm, ISession } from '../interfaces/user-interface';
 import { endpoints } from '../settings/endpoint';
 import Service from '../utils/service';
 import useLoading from './useLoading';
 
 interface IUserContext {
-  login: (_form: ILoginForm) => Promise<void>;
+  login: (form: ILoginForm) => Promise<void>;
   isAuth: () => boolean;
   user: ISession | null;
+  register: (form: IRegisterForm) => Promise<void>;
   fetchUser: () => Promise<void>;
 }
 
@@ -30,8 +33,19 @@ export function UserProvider({ children }: ContentLayout) {
 
   useEffect(() => checkStorage(), []);
 
-  const register = async (): Promise<void> => {
-    return;
+  const register = async (form: IRegisterForm): Promise<void> => {
+    onStart('We creating your account');
+    const response = await service.request<IBackendInterface<any>>(
+      endpoints.auth.register,
+      undefined,
+      form
+    );
+    if (response.success) {
+      onFinish('Succesfuly register account', true);
+      navigate('/home');
+    } else {
+      onFinish(response.errorMessage, false);
+    }
   };
 
   const login = async (form: ILoginForm): Promise<void> => {
@@ -41,14 +55,14 @@ export function UserProvider({ children }: ContentLayout) {
       form
     );
     onStart("We're signed in you up...");
-    if (!response.isError) {
-      setUser(response.data as ISession);
-      saveToStorage(response.data as ISession);
-      onFinish('Successfully Logged In', !response.isError);
-      navigate('/home');
-    } else {
-      onFinish(response.data as string, false);
-    }
+    // if (!response.isError) {
+    //   setUser(response.data);
+    //   saveToStorage(response.data);
+    //   onFinish('Successfully Logged In', !response.isError);
+    //   navigate('/home');
+    // } else {
+    //   //   onFinish(response.data as string, false);
+    // }
 
     // return response;
   };
@@ -67,11 +81,11 @@ export function UserProvider({ children }: ContentLayout) {
     const response = await service.request<ISession>(
       endpoints.user.getProfileUser
     );
-    if (!response.isError) setUser(response.data as ISession);
+    // if (!response.isError) setUser(response.data as ISession);
   };
 
   return (
-    <userContext.Provider value={{ login, user, isAuth, fetchUser }}>
+    <userContext.Provider value={{ register, login, user, isAuth, fetchUser }}>
       {children}
     </userContext.Provider>
   );

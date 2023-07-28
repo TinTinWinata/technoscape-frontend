@@ -1,4 +1,4 @@
 export type IResponseType<T> = {
-  data: T | string;
+  data: T;
   isError: boolean;
 };

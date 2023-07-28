@@ -30,11 +30,10 @@ export default function ResetPassword() {
         { forgot_password_link_id: id }
       );
       console.log(response);
-      if (response.isError) {
-        // onError(data.detail);
-        // console.log(data.detail);
-        navigate('/login');
-      }
+      // if (response.isError) {
+      // onError(data.detail);
+      //   navigate('/login');
+      // }
     }
   };
 
@@ -54,13 +53,13 @@ export default function ResetPassword() {
         undefined,
         { password: newPassword.value, forgot_password_link_id: id }
       );
-      if (!response.isError) {
-        navigate('/login');
-        onFinish(response.data as string, false);
-      } else {
-        const data = response.data as IDetailResponse;
-        onFinish(data.detail, true);
-      }
+      // if (!response.isError) {
+      //   navigate('/login');
+      //   // onFinish(response.data as string, false);
+      // } else {
+      //   const data = response.data as IDetailResponse;
+      //   onFinish(data.detail, true);
+      // }
     }
   };
   return (
