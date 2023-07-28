@@ -1,8 +1,15 @@
-import { TransactoinHistory } from '../components/TransactionHistory';
-import Greeting from '../components/greeting';
-import Navbar from '../components/navbar';
-import { usePin } from '../hooks/pin-context';
-import { useUserAuth } from '../hooks/user-context';
+import {
+  FcDebt,
+  FcMoneyTransfer,
+  FcMultipleDevices,
+  FcPortraitMode,
+} from 'react-icons/fc';
+import { TransactoinHistory } from '../../components/TransactionHistory';
+import Greeting from '../../components/greeting';
+import Navbar from '../../components/navbar';
+import { usePin } from '../../hooks/pin-context';
+import { useUserAuth } from '../../hooks/user-context';
+import HomeIcon from './home-icon';
 
 export default function Home() {
   const { user } = useUserAuth();
@@ -13,13 +20,13 @@ export default function Home() {
       <div className="flex justify-center absolute top-20 w-full z-10 ">
         <div className="w-[80%] d-flex">
           <div className="w-full bg-white rounded-xl custom-shadow">
-            <div className=" grid grid-cols-5 mt-8 w-[1600px]">
-              <div className="font-bold bg-primary rounded-br-[50px] rounded-tr-[5px] rounded-l-xl text-white col-span-1">
+            <div className="flex mt-8">
+              <div className="w-[350px] font-bold bg-primary rounded-br-[50px] rounded-tr-[5px] rounded-l-xl text-white col-span-1">
                 <div className="p-4">
                   <div className="h-5">
                     <Greeting />
                   </div>
-                  <p className="text-2xl  font-normal">
+                  <p className="uppercase text-xl  font-normal">
                     Justine Winata Purwoko
                   </p>
                   <div className="relative  h-20 ">
@@ -30,16 +37,36 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+              <div className="p-5 center grow  ">
+                <div className="center w-full ">
+                  <HomeIcon
+                    link="/transfer"
+                    color="green"
+                    icon={<FcMoneyTransfer className="w-full h-full" />}
+                    name="Transfer"
+                  />
+                  <HomeIcon
+                    link="/request-loan"
+                    color="red"
+                    icon={<FcMultipleDevices className="w-full h-full" />}
+                    name="Meminta Peminjaman"
+                  />
+                  <HomeIcon
+                    link="/pay-loan"
+                    color="blue"
+                    icon={<FcDebt className="w-full h-full" />}
+                    name="Bayar Peminjaman"
+                  />
+                  <HomeIcon
+                    link="/profile"
+                    color="blue"
+                    icon={<FcPortraitMode className="w-full h-full" />}
+                    name="Validasi Akun"
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          {/* <form
-                        onSubmit={(e: ChangeEvent<HTMLFormElement>) => {
-                            e.preventDefault();
-                            triggerPin();
-                        }}
-                    >
-                        <Button> test</Button>
-                    </form> */}
           <div className="w-full grid grid-cols-3 gap-4 mt-8">
             <div className="col-span-2 bg-white shadow-lg p-6 rounded-lg">
               <p className="font-bold text-xl">Riwayat Transaksi</p>

@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { UserProvider } from './hooks/user-context';
 import MainLayout from './layouts/layout';
 import ForgetPassword from './pages/forget-password';
-import Home from './pages/home';
+import Home from './pages/home/home';
 import Login from './pages/login';
 import Register from './pages/register';
 import { RequestLoan } from './pages/request-load';
