@@ -40,6 +40,7 @@ interface LoanEndpoint {
   approveLoanApproval: Endpoint;
   getLoan: Endpoint;
   payLoan: Endpoint;
+  getAllLoan: Endpoint;
 }
 
 interface EndpointList {
@@ -68,10 +69,6 @@ const userEndpoints: UserEndpoint = {
     method: Method.POST,
     url: '/user/verify-pin',
   },
-  getTransaction: {
-    method: Method.POST,
-    url: '/user/transaction/info',
-  },
   userApprove: {
     method: Method.POST,
     url: '/user/approve',
@@ -91,10 +88,6 @@ const userEndpoints: UserEndpoint = {
   getProfileUser: {
     url: '/user/profile',
     method: Method.GET,
-  },
-  getBankAccount: {
-    url: '/user/bank-account',
-    method: Method.POST,
   },
   updateProfilePictureUser: {
     url: '/user/update/profile-picture',
@@ -116,6 +109,16 @@ const userEndpoints: UserEndpoint = {
     url: '/forgot-password/validate',
     method: Method.POST,
   },
+  getTransaction: {
+    method: Method.POST,
+    url: '/user/transaction/info',
+  },
+
+  getBankAccount: {
+    url: '/user/bank-account',
+    method: Method.POST,
+  },
+
   createTransaction: {
     url: '/user/transaction/create-transaction',
     method: Method.POST,
@@ -137,6 +140,10 @@ export const loanEndpoints: LoanEndpoint = {
   },
   getLoan: {
     url: '/loan/get',
+    method: Method.GET,
+  },
+  getAllLoan: {
+    url: '/loan/admin/approval',
     method: Method.GET,
   },
   payLoan: {
