@@ -8,6 +8,7 @@ import {
     IAcceptLoan,
     IGetLoan,
     IPayLoan,
+    IRequestLoan,
     IRequestLoanForm,
 } from "../interfaces/loan-interface";
 import { IBackendInterface } from "../interfaces/backend/backend-response-interface";
@@ -35,7 +36,7 @@ export function LoanProvider({ children }: ContentLayout) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getLoan();
+        if (user && user.role !== "ADMIN") getLoan();
     }, [user]);
 
     const createLoanApproval = async (
@@ -43,14 +44,19 @@ export function LoanProvider({ children }: ContentLayout) {
     ): Promise<void> => {
         onStart("Request");
         const service = new Service(user?.accessToken);
-        const response = await service.request<IBackendInterface<any>>(
+        const response = await service.request<IRequestLoan>(
             endpoints.loan.crateLoanApproval,
             "",
             loanData
         );
 
         if (response.success) {
-            onFinish("Succesfully request", true);
+            console.log(response.data.prediction);
+            if (response.data.prediction === 0) {
+                onFinish("Pengajuan anda di tolak");
+            } else {
+                onFinish("Pengajuan berhasil", true);
+            }
             navigate("/home");
         } else {
             onFinish(response.errorMessage, false);

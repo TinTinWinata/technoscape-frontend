@@ -71,7 +71,12 @@ export function UserProvider({ children }: ContentLayout) {
         if (response.success) {
             saveToStorage(response.data);
             toastUpdateSuccess(toastId, "Succesfully Login");
-            navigate("/home");
+
+            if (response.data.role === "ADMIN") {
+                navigate("/admin/home");
+            } else {
+                navigate("/home");
+            }
         } else {
             toastUpdateFailed(toastId, response.errorMessage);
         }
