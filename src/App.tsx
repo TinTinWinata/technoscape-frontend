@@ -5,6 +5,7 @@ import MainLayout from './layouts/layout';
 import ForgetPassword from './pages/forget-password';
 import Home from './pages/home';
 import Login from './pages/login';
+import Register from './pages/register';
 import ResetPassword from './pages/reset-password';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
               path="/forgot-password/:id"
               element={<ResetPassword></ResetPassword>}
             ></Route>
+            <Route path="/register" element={<Register />}></Route>
             {/* <Route
               path="/*"
               element={<MiddlewareRoutes></MiddlewareRoutes>}

@@ -21,7 +21,7 @@ export default function Form({
   return (
     <form
       onSubmit={onSubmit}
-      className={`shadow-sm w-[450px] gap-2 flex flex-col justify-center items-center text-center bg-white rounded-md p-10`}
+      className={`shadow-md w-[450px] gap-2 flex flex-col justify-center items-center text-center bg-white rounded-md p-10`}
     >
       <h1 className="font-semibold text-2xl">{title}</h1>
       <p className="text-secondaryFont text-sm">{subTitle}</p>

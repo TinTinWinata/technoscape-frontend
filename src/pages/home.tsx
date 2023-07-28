@@ -1,5 +1,3 @@
-import { ChangeEvent } from 'react';
-import Button from '../components/button';
 import Navbar from '../components/navbar';
 import { usePin } from '../hooks/pin-context';
 import { useUserAuth } from '../hooks/user-context';
@@ -15,14 +13,6 @@ export default function Home() {
           <div className="w-full p-4 bg-white rounded-md shadow-lg">
             Justine
           </div>
-          <form
-            onSubmit={(e: ChangeEvent<HTMLFormElement>) => {
-              e.preventDefault();
-              triggerPin();
-            }}
-          >
-            <Button> test</Button>
-          </form>
         </div>
       </div>
     </div>
