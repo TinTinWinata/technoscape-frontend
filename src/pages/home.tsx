@@ -1,15 +1,30 @@
-import { useUserAuth } from "../hooks/user-context";
+import { ChangeEvent } from 'react';
+import Button from '../components/button';
+import Navbar from '../components/navbar';
+import { usePin } from '../hooks/pin-context';
+import { useUserAuth } from '../hooks/user-context';
 
 export default function Home() {
-    const { user } = useUserAuth();
-
-    console.log(user);
-
-    return (
-        <div>
-            <div>
-                Welcome {user?.first_name} {user?.last_name}
-            </div>
+  const { user } = useUserAuth();
+  const { triggerPin } = usePin();
+  return (
+    <div className="w-full h-full relative">
+      <Navbar />
+      <div className="flex justify-center absolute top-20 w-full z-10 ">
+        <div className="w-[80%] ">
+          <div className="w-full p-4 bg-white rounded-md shadow-lg">
+            Justine
+          </div>
+          <form
+            onSubmit={(e: ChangeEvent<HTMLFormElement>) => {
+              e.preventDefault();
+              triggerPin();
+            }}
+          >
+            <Button> test</Button>
+          </form>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
