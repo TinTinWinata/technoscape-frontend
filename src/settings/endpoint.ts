@@ -40,6 +40,7 @@ interface LoanEndpoint {
 interface EndpointList {
     auth: AuthEndpoint;
     user: UserEndpoint;
+    loan: LoanEndpoint;
 }
 
 const authEndpoints: AuthEndpoint = {
@@ -63,7 +64,7 @@ const userEndpoints: UserEndpoint = {
         url: "/forgot-password/generate",
     },
     getProfilePicture: {
-        url: "/media/profile_picture/",
+        url: "/media/profile_picture",
         method: Method.GET,
     },
     acviteUser: {
@@ -75,11 +76,11 @@ const userEndpoints: UserEndpoint = {
         method: Method.GET,
     },
     updateProfilePictureUser: {
-        url: "/user/update/profile-picture/",
+        url: "/user/update/profile-picture",
         method: Method.POST,
     },
     updateGeneralUser: {
-        url: "/user/update/",
+        url: "/user/update",
         method: Method.POST,
     },
     changePassword: {
@@ -98,15 +99,15 @@ const userEndpoints: UserEndpoint = {
 
 export const loanEndpoints: LoanEndpoint = {
     crateLoanApproval: {
-        url: "/loan/approval/",
+        url: "/loan/approval",
         method: Method.POST,
     },
     acceptLoan: {
-        url: "/loan/accept/",
+        url: "/loan/accept",
         method: Method.POST,
     },
     approveLoanApproval: {
-        url: "/loan/approval/approve/",
+        url: "/loan/approval/approve",
         method: Method.PUT,
     },
     getLoan: {
@@ -114,7 +115,7 @@ export const loanEndpoints: LoanEndpoint = {
         method: Method.GET,
     },
     payLoan: {
-        url: "/loan/pay/",
+        url: "/loan/pay",
         method: Method.POST,
     },
 };
@@ -122,4 +123,5 @@ export const loanEndpoints: LoanEndpoint = {
 export const endpoints: EndpointList = {
     auth: authEndpoints,
     user: userEndpoints,
+    loan: loanEndpoints,
 };

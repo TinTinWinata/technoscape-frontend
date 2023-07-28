@@ -50,6 +50,8 @@ class Service {
             const parameterService = new Parameter(url, parameters);
             url = parameterService.getUrl();
         }
+
+        console.log(url);
         try {
             return (await this.getResponse(
                 endpoint.method,
