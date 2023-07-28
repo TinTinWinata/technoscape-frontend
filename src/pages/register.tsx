@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import { BsFillCreditCard2FrontFill } from 'react-icons/bs';
-import { MdEmail, MdPerson } from 'react-icons/md';
+import { MdEmail, MdPerson, MdPhone } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import Form from '../components/form';
@@ -14,18 +14,17 @@ export default function Register() {
 
   const handleRegister = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { ktpId, email, password, pin, gender, username } = e.target;
+    const { ktpId, email, password, pin, gender, username, phone } = e.target;
     const dataForm: IRegisterForm = {
       birthDate: '12121993',
       email: email.value,
       gender: gender.value === 'Male' ? '1' : '0',
       ktpId: ktpId.value,
       loginPassword: password.value,
-      phoneNumber: '087878766892',
+      phoneNumber: phone.value,
       pin: pin.value,
       username: username.value,
     };
-    console.log(dataForm);
     await register(dataForm);
   };
 
@@ -55,6 +54,12 @@ export default function Register() {
           label="Enter your KTP ID"
           type="text"
           name="ktpId"
+        />
+        <Input
+          icon={<MdPhone />}
+          label="Phone Number"
+          type="text"
+          name="phone"
         />
         <Input
           icon={<RiLockPasswordFill />}

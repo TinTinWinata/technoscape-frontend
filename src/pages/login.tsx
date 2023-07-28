@@ -1,12 +1,12 @@
 import { ChangeEvent } from 'react';
-import { MdEmail } from 'react-icons/md';
+import { MdPerson } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from '../components/form';
 import Input from '../components/input';
 import useLoading from '../hooks/useLoading';
 import { useUserAuth } from '../hooks/user-context';
-import { ILoginForm } from '../interfaces/user-interface';
+import { ILoginForm } from '../interfaces/backend/login-form-interface';
 
 export default function Login() {
   const { login } = useUserAuth();
@@ -16,10 +16,10 @@ export default function Login() {
   const handleLogin = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { email, password } = e.target;
+    const { username, password } = e.target;
     const dataForm: ILoginForm = {
-      email: email.value,
-      password: password.value,
+      loginPassword: password.value,
+      username: username.value,
     };
     await login(dataForm);
   };
@@ -34,10 +34,10 @@ export default function Login() {
         buttonName="Sign In"
       >
         <Input
-          icon={<MdEmail />}
-          label="Enter your email"
-          type="email"
-          name="email"
+          icon={<MdPerson />}
+          label="Enter your username"
+          type="text"
+          name="username"
         />
         <Input
           icon={<RiLockPasswordFill />}

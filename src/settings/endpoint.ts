@@ -36,7 +36,7 @@ interface EndpointList {
 
 const authEndpoints: AuthEndpoint = {
   login: {
-    url: '/user/login',
+    url: '/user/auth/login',
     method: Method.POST,
   },
   register: {

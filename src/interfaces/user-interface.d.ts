@@ -1,15 +1,12 @@
-export interface ILoginForm {
-  email: string;
-  password: string;
-}
-
 export interface ISession {
-  id: string;
+  uid: number;
+  phoneNumber: string;
+  gender: string;
+  createTime: number;
+  ktpId: string;
+  updateTime: number;
+  birthDate: string;
   email: string;
-  refresh_token: string;
-  access_token: string;
   username: string;
-  first_name: string;
-  last_name: string;
-  profile_picture: string;
+  accessToken: string;
 }

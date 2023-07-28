@@ -1,9 +1,14 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IBackendInterface } from '../interfaces/backend/backend-response-interface';
+import { ILoginForm } from '../interfaces/backend/login-form-interface';
 import { IRegisterForm } from '../interfaces/backend/register-form-interface';
-import { ILoginForm, ISession } from '../interfaces/user-interface';
+import { ISession } from '../interfaces/user-interface';
 import { endpoints } from '../settings/endpoint';
+import {
+  toastLoading,
+  toastUpdateFailed,
+  toastUpdateSuccess,
+} from '../settings/toast-setting';
 import Service from '../utils/service';
 import useLoading from './useLoading';
 
@@ -34,37 +39,35 @@ export function UserProvider({ children }: ContentLayout) {
   useEffect(() => checkStorage(), []);
 
   const register = async (form: IRegisterForm): Promise<void> => {
-    onStart('We creating your account');
-    const response = await service.request<IBackendInterface<any>>(
+    const toastId = toastLoading('We creating your account');
+    const response = await service.request<any>(
       endpoints.auth.register,
       undefined,
       form
     );
+    console.log(response);
     if (response.success) {
-      onFinish('Succesfuly register account', true);
+      toastUpdateSuccess(toastId, 'Succesfuly register account');
       navigate('/home');
     } else {
-      onFinish(response.errorMessage, false);
+      toastUpdateFailed(toastId, response.errorMessage);
     }
   };
 
   const login = async (form: ILoginForm): Promise<void> => {
+    const toastId = toastLoading('We were signing you up');
     const response = await service.request<ISession>(
       endpoints.auth.login,
       '',
       form
     );
-    onStart("We're signed in you up...");
-    // if (!response.isError) {
-    //   setUser(response.data);
-    //   saveToStorage(response.data);
-    //   onFinish('Successfully Logged In', !response.isError);
-    //   navigate('/home');
-    // } else {
-    //   //   onFinish(response.data as string, false);
-    // }
-
-    // return response;
+    if (response.success) {
+      saveToStorage(response.data);
+      toastUpdateSuccess(toastId, 'Succesfully Login');
+      navigate('/home');
+    } else {
+      toastUpdateFailed(toastId, response.errorMessage);
+    }
   };
 
   const checkStorage = () => {
