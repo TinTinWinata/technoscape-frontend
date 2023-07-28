@@ -34,3 +34,7 @@ export const manipulateMoney = (amount: number) => {
 
     return formatter.format(amount);
 };
+
+export const manipulateRangeLoan = (range: number) => {
+    return range * 30;
+};

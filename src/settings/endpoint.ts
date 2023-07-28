@@ -29,6 +29,14 @@ interface UserEndpoint {
   validateForgotPassword: Endpoint;
 }
 
+interface LoanEndpoint {
+  crateLoanApproval: Endpoint;
+  acceptLoan: Endpoint;
+  approveLoanApproval: Endpoint;
+  getLoan: Endpoint;
+  payLoan: Endpoint;
+}
+
 interface EndpointList {
   auth: AuthEndpoint;
   user: UserEndpoint;
@@ -84,6 +92,29 @@ const userEndpoints: UserEndpoint = {
   },
   validateForgotPassword: {
     url: '/forgot-password/validate',
+    method: Method.POST,
+  },
+};
+
+export const loanEndpoints: LoanEndpoint = {
+  crateLoanApproval: {
+    url: '/loan/approval/',
+    method: Method.POST,
+  },
+  acceptLoan: {
+    url: '/loan/accept/',
+    method: Method.POST,
+  },
+  approveLoanApproval: {
+    url: '/loan/approval/approve/',
+    method: Method.PUT,
+  },
+  getLoan: {
+    url: '/loan/get',
+    method: Method.GET,
+  },
+  payLoan: {
+    url: '/loan/pay/',
     method: Method.POST,
   },
 };
