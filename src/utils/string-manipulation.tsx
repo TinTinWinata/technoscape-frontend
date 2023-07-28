@@ -56,3 +56,10 @@ export function convertSeparator(numberStr: string): string {
   const regex = /\B(?=(\d{3})+(?!\d))/g;
   return numberStr.replace(regex, '.');
 }
+
+export function filterTextToNumberOnly(input: string): string {
+  const numericCharacters: RegExpMatchArray | null = input.match(/\d+/g);
+  const result: string = numericCharacters ? numericCharacters.join('') : '';
+
+  return result;
+}

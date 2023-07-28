@@ -31,6 +31,7 @@ type ContentLayout = {
 export function LoanProvider({ children }: ContentLayout) {
   const { user } = useUserAuth();
   const [loan, setLoan] = useState<IGetLoan | null>(null);
+  console.log(loan);
   const { onStart, onFinish } = useLoading();
   const navigate = useNavigate();
 

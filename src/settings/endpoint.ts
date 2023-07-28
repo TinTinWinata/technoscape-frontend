@@ -25,6 +25,7 @@ interface UserEndpoint {
   updateProfilePictureUser: Endpoint;
   updateGeneralUser: Endpoint;
   getTransaction: Endpoint;
+  createTransaction: Endpoint;
   getProfileUser: Endpoint;
   changePassword: Endpoint;
   changeForgotPassword: Endpoint;
@@ -108,6 +109,10 @@ const userEndpoints: UserEndpoint = {
   },
   validateForgotPassword: {
     url: '/forgot-password/validate',
+    method: Method.POST,
+  },
+  createTransaction: {
+    url: '/user/transaction/create-transaction',
     method: Method.POST,
   },
 };

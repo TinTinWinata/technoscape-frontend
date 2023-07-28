@@ -7,7 +7,9 @@ import { IBackendTransaction } from '../interfaces/transaction-interface';
 import { ISession } from '../interfaces/user-interface';
 import { endpoints } from '../settings/endpoint';
 import {
+  toastError,
   toastLoading,
+  toastSuccess,
   toastUpdateFailed,
   toastUpdateSuccess,
 } from '../settings/toast-setting';
@@ -24,6 +26,7 @@ interface IUserContext {
   fetchUser: () => Promise<void>;
   bankInfo: IBackendAccount | null;
   transaction: IBackendTransaction | null;
+  transfer: (receiverNumber: number, amount: number) => Promise<void>;
 }
 
 const userContext = createContext({} as IUserContext);
@@ -144,6 +147,28 @@ export function UserProvider({ children }: ContentLayout) {
     }
     return null;
   };
+
+  const transfer = async (receiverNumber: number, amount: number) => {
+    if (user && bankInfo) {
+      const service = new Service(user.accessToken);
+      const data = {
+        senderAccountNo: bankInfo.accountNo,
+        receiverAccountNo: receiverNumber,
+        amount,
+      };
+      const response = await service.request<any>(
+        endpoints.user.createTransaction,
+        undefined,
+        data
+      );
+      if (!response.success) toastError(response.errorMessage);
+      else {
+        await checkInfo();
+        toastSuccess(`Succesfully transfer to ${receiverNumber} account!`);
+      }
+    }
+  };
+
   return (
     <userContext.Provider
       value={{
@@ -156,6 +181,7 @@ export function UserProvider({ children }: ContentLayout) {
         isAuth,
         fetchUser,
         bankInfo,
+        transfer,
       }}
     >
       {children}
