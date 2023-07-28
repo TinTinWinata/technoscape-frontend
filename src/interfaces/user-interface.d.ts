@@ -9,5 +9,11 @@ export interface ISession {
     email: string;
     username: string;
     accessToken: string;
+    role: string;
     is_approved: boolean;
+}
+
+export interface IResetPassword {
+    current_password: string;
+    forgot_password_link_id: string | undefined;
 }

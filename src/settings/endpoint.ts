@@ -18,32 +18,19 @@ interface AuthEndpoint {
 }
 
 interface UserEndpoint {
-<<<<<<< HEAD
     userApprove: Endpoint;
     forgotPassword: Endpoint;
     getProfilePicture: Endpoint;
     acviteUser: Endpoint;
     updateProfilePictureUser: Endpoint;
     updateGeneralUser: Endpoint;
+    getTransaction: Endpoint;
+    createTransaction: Endpoint;
     getProfileUser: Endpoint;
     changePassword: Endpoint;
     changeForgotPassword: Endpoint;
+    getBankAccount: Endpoint;
     validateForgotPassword: Endpoint;
-=======
-  userApprove: Endpoint;
-  forgotPassword: Endpoint;
-  getProfilePicture: Endpoint;
-  acviteUser: Endpoint;
-  updateProfilePictureUser: Endpoint;
-  updateGeneralUser: Endpoint;
-  getTransaction: Endpoint;
-  createTransaction: Endpoint;
-  getProfileUser: Endpoint;
-  changePassword: Endpoint;
-  changeForgotPassword: Endpoint;
-  getBankAccount: Endpoint;
-  validateForgotPassword: Endpoint;
->>>>>>> 8d08541ccb549a6413ae5bbb95013a0d0ae6f31a
 }
 
 interface LoanEndpoint {
@@ -77,7 +64,10 @@ const authEndpoints: AuthEndpoint = {
 };
 
 const userEndpoints: UserEndpoint = {
-<<<<<<< HEAD
+    getTransaction: {
+        method: Method.POST,
+        url: "/user/transaction/info",
+    },
     userApprove: {
         method: Method.POST,
         url: "/user/approve",
@@ -98,6 +88,10 @@ const userEndpoints: UserEndpoint = {
         url: "/user/profile",
         method: Method.GET,
     },
+    getBankAccount: {
+        url: "/user/bank-account",
+        method: Method.POST,
+    },
     updateProfilePictureUser: {
         url: "/user/update/profile-picture",
         method: Method.POST,
@@ -107,71 +101,21 @@ const userEndpoints: UserEndpoint = {
         method: Method.POST,
     },
     changePassword: {
-        url: "/user/change-password",
+        url: "/user/forgot-password",
         method: Method.PUT,
     },
     changeForgotPassword: {
-        url: "/user/forgot-password",
-        method: Method.PUT,
+        url: "/forgot-password/generate",
+        method: Method.POST,
     },
     validateForgotPassword: {
         url: "/forgot-password/validate",
         method: Method.POST,
     },
-=======
-  getTransaction: {
-    method: Method.POST,
-    url: '/user/transaction/info',
-  },
-  userApprove: {
-    method: Method.POST,
-    url: '/user/approve',
-  },
-  forgotPassword: {
-    method: Method.POST,
-    url: '/forgot-password/generate',
-  },
-  getProfilePicture: {
-    url: '/media/profile_picture',
-    method: Method.GET,
-  },
-  acviteUser: {
-    url: '/user/active',
-    method: Method.GET,
-  },
-  getProfileUser: {
-    url: '/user/profile',
-    method: Method.GET,
-  },
-  getBankAccount: {
-    url: '/user/bank-account',
-    method: Method.POST,
-  },
-  updateProfilePictureUser: {
-    url: '/user/update/profile-picture',
-    method: Method.POST,
-  },
-  updateGeneralUser: {
-    url: '/user/update',
-    method: Method.POST,
-  },
-  changePassword: {
-    url: '/user/change-password',
-    method: Method.PUT,
-  },
-  changeForgotPassword: {
-    url: '/user/forgot-password',
-    method: Method.PUT,
-  },
-  validateForgotPassword: {
-    url: '/forgot-password/validate',
-    method: Method.POST,
-  },
-  createTransaction: {
-    url: '/user/transaction/create-transaction',
-    method: Method.POST,
-  },
->>>>>>> 8d08541ccb549a6413ae5bbb95013a0d0ae6f31a
+    createTransaction: {
+        url: "/user/transaction/create-transaction",
+        method: Method.POST,
+    },
 };
 
 export const loanEndpoints: LoanEndpoint = {

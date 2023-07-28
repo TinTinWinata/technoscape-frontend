@@ -39,7 +39,7 @@ export function LoanProvider({ children }: ContentLayout) {
     const { user } = useUserAuth();
     const [loan, setLoan] = useState<IGetLoan | null>(null);
     console.log(loan);
-    const { onStart, onFinish } = useLoading();
+    const { onStart, onFinish, onError } = useLoading();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -49,16 +49,20 @@ export function LoanProvider({ children }: ContentLayout) {
     const createLoanApproval = async (
         loanData: IRequestLoanForm
     ): Promise<void> => {
-        onStart("Request");
+        const toastId = toastLoading("Mohon ditunggu");
         const service = new Service(user?.accessToken);
-        const response = await service.request<IBackendInterface<any>>(
+        const response = await service.request<IRequestLoan>(
             endpoints.loan.crateLoanApproval,
             "",
             loanData
         );
 
         if (response.success) {
-            onFinish("Succesfully request", true);
+            if (response.data.prediction === 1) {
+                toastUpdateSuccess(toastId, "Berhasil mengganti kata sandi");
+            } else {
+                toastUpdateFailed(toastId, response.errorMessage);
+            }
             navigate("/home");
         } else {
             onFinish(response.errorMessage, false);

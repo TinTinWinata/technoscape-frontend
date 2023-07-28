@@ -10,8 +10,6 @@ import { ILoginForm } from "../interfaces/backend/login-form-interface";
 
 export default function Login() {
     const { login } = useUserAuth();
-    const { isLoading, onStart, onFinish } = useLoading();
-    const navigate = useNavigate();
 
     const handleLogin = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
