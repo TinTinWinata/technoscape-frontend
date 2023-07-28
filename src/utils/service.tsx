@@ -55,8 +55,9 @@ class Service {
         .data as IBackendInterface<T>;
     } catch (err) {
       const { response } = err as any;
-      console.log(err);
-      console.log(response);
+      // !Debugging Purposes
+      // console.log(err);
+      // console.log(response);
       return {
         data: undefined,
         errorMessage:

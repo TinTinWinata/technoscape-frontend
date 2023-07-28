@@ -1,10 +1,24 @@
 import { Player } from '@lottiefiles/react-lottie-player';
+import { ChangeEvent } from 'react';
 import Button from '../components/button';
 import { InsideForm } from '../components/inside-form';
 import Navbar from '../components/navbar';
+import { useLoan } from '../hooks/loan-context';
+import { dateAddDay, dateDifference } from '../utils/date-manipulation';
+import { manipulateMoney } from '../utils/string-manipulation';
 
 export default function PayLoan() {
-  const payLoan = () => {};
+  const { payLoan, loan } = useLoan();
+
+  const handlePayloan = (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    payLoan();
+  };
+
+  const calculateTotal = () => {
+    if (!loan) return 0;
+    return loan.loan_approval.loan_amount;
+  };
 
   return (
     <div className="w-full h-full relative">
@@ -12,19 +26,38 @@ export default function PayLoan() {
       <InsideForm
         title="Bayar Peminjaman"
         subTitle="Pinjaman Cepat & Mudah untuk Kebutuhan Anda"
-        onSubmit={payLoan}
+        onSubmit={handlePayloan}
       >
         <div className="flex pt-10">
           <div className="grow">
             <div className="flex justify-between px-3 pt-3">
               <div className="font-bold">Akun</div>
               <div className=""></div>
-              <div className="font-bold text-green-400">23 Days Left</div>
+              {loan && (
+                <div className="font-bold text-green-400">
+                  {Math.floor(
+                    dateDifference(
+                      new Date(),
+                      dateAddDay(
+                        loan.loan_approval.created_at,
+                        loan.loan_approval.loan_days_term
+                      )
+                    )
+                  )}
+                  <span className="ml-0.5"> Hari</span>
+                </div>
+              )}
             </div>
             <div className="flex justify-between px-3 pb-3">
-              <div className="text-gray-500">5859457074850164</div>
+              <div className="text-gray-500">
+                {loan?.loan_approval.receiverAccountNo}
+              </div>
               <div className=""></div>
-              <div className="font-bold text-xl">Rp 65.000</div>
+              {loan?.loan_approval.loan_amount && (
+                <div className="font-bold text-xl">
+                  {manipulateMoney(loan.loan_approval.loan_amount)}
+                </div>
+              )}
             </div>
             <hr className="w-full border border-opacity-50" />
           </div>
@@ -42,7 +75,9 @@ export default function PayLoan() {
             <hr className="w-full bg-gray-100 h-1" />
             <div className="flex justify-between items-center p-3 gap-3">
               <div className="font-semibold">Total Harga</div>
-              <div className="mr-1 font-bold text-xl">Rp 65.000</div>
+              <div className="mr-1 font-bold text-xl">
+                {manipulateMoney(calculateTotal())}
+              </div>
             </div>
             <div className="p-3">
               <Button>Bayar</Button>

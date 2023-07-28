@@ -1,12 +1,14 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IBackendInterface } from '../interfaces/backend/backend-response-interface';
-import {
-  IGetLoan,
-  IPayLoan,
-  IRequestLoanForm,
-} from '../interfaces/loan-interface';
+import { IGetLoan, IRequestLoanForm } from '../interfaces/loan-interface';
 import { endpoints } from '../settings/endpoint';
+import {
+  toastError,
+  toastLoading,
+  toastUpdateFailed,
+  toastUpdateSuccess,
+} from '../settings/toast-setting';
 import { IParameter } from '../utils/parameter';
 import Service from '../utils/service';
 import useLoading from './useLoading';
@@ -16,7 +18,7 @@ interface ILoanContext {
   createLoanApproval: (loanData: IRequestLoanForm) => Promise<void>;
   getLoan: () => Promise<IGetLoan | null>;
   loan: IGetLoan | null;
-  payLoan: (loan: IPayLoan) => Promise<void>;
+  payLoan: () => Promise<void>;
   acceptLoan: (approval: string) => Promise<void>;
 }
 
@@ -31,10 +33,6 @@ export function LoanProvider({ children }: ContentLayout) {
   const [loan, setLoan] = useState<IGetLoan | null>(null);
   const { onStart, onFinish } = useLoading();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(loan);
-  }, [loan]);
 
   useEffect(() => {
     getLoan();
@@ -60,24 +58,42 @@ export function LoanProvider({ children }: ContentLayout) {
   };
 
   const acceptLoan = async (approval: string): Promise<void> => {
-    onStart('Request');
+    onStart('Mengambil pinjaman...');
     const service = new Service(user?.accessToken);
-    console.log(user?.accessToken);
-    console.log(approval);
     const response = await service.request<IBackendInterface<any>>(
       endpoints.loan.acceptLoan,
       '',
       { approval: approval }
     );
     if (response.success) {
+      getLoan();
       onFinish('Succesfully request', true);
-      navigate('/home');
     } else {
       onFinish(response.errorMessage, false);
     }
   };
   const payLoan = async () => {
-    return;
+    if (loan) {
+      const toastId = toastLoading("Please wait we're checking your account.");
+      const data = {
+        loan: loan.loan.id,
+      };
+      const service = new Service();
+      const response = await service.request<any>(
+        endpoints.loan.payLoan,
+        undefined,
+        data
+      );
+      if (response.success) {
+        getLoan();
+        navigate('/home');
+        toastUpdateSuccess(toastId, 'Succesfully pay the loan!');
+      } else {
+        toastUpdateFailed(toastId, 'Failed to pay the loan!');
+      }
+    } else {
+      toastError('You dont have any loan in the database');
+    }
   };
 
   const getLoan = async (): Promise<IGetLoan | null> => {

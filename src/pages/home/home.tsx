@@ -75,7 +75,7 @@ export default function Home() {
                     icon={<FcDebt className="w-full absolute z-10 h-full" />}
                     name="Bayar Peminjaman"
                   />
-                  {user && user?.is_approved && (
+                  {user && !user.is_approved && (
                     <HomeIcon
                       link="/activate-profile"
                       color="blue"
@@ -107,10 +107,8 @@ export default function Home() {
                 receiverNo="5859457969635008"
               />
             </div>
-            <div className="bg-white shadow-lg p-6">
-              <p className="font-bold text-2xl mt-3 text-center">
-                Riwayat Peminjaman
-              </p>
+            <div className="bg-white shadow-lg p-6 flex flex-col">
+              <p className="font-bold text-2xl mt-3 text-center">Peminjaman</p>
               <div className="center">
                 <hr className="mt-3 w-2/3 mb-2" />
               </div>
