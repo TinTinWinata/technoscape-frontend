@@ -1,3 +1,4 @@
+import "react-circular-progressbar/dist/styles.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { LoanProvider } from "./hooks/loan-context";
@@ -11,6 +12,7 @@ import PayLoan from "./pages/pay-loan";
 import Register from "./pages/register";
 import { RequestLoan } from "./pages/request-loan";
 import ResetPassword from "./pages/reset-password";
+import { Transfer } from "./pages/transfer";
 import { HomeAdmin } from "./pages/admin/home-admin";
 
 function App() {
@@ -28,6 +30,10 @@ function App() {
                                 element={<Login></Login>}
                             ></Route>
                             <Route path="/home" element={<Home></Home>}></Route>
+                            <Route
+                                path="/transfer"
+                                element={<Transfer />}
+                            ></Route>
                             <Route
                                 path="/forgot-password"
                                 element={<ForgetPassword></ForgetPassword>}

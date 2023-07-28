@@ -1,6 +1,5 @@
 export interface ISession {
     uid: number;
-    role: string;
     phoneNumber: string;
     gender: string;
     createTime: number;
@@ -10,4 +9,5 @@ export interface ISession {
     email: string;
     username: string;
     accessToken: string;
+    is_approved: boolean;
 }

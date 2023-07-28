@@ -1,9 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { createContext } from "react";
-import useLoading from "./useLoading";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Service from "../utils/service";
-import { useUserAuth } from "./user-context";
 import {
     IAcceptLoan,
     IGetLoan,
@@ -13,13 +9,23 @@ import {
 } from "../interfaces/loan-interface";
 import { IBackendInterface } from "../interfaces/backend/backend-response-interface";
 import { endpoints } from "../settings/endpoint";
+import {
+    toastError,
+    toastLoading,
+    toastUpdateFailed,
+    toastUpdateSuccess,
+} from "../settings/toast-setting";
+
+import { useUserAuth } from "./user-context";
 import { IParameter } from "../utils/parameter";
+import Service from "../utils/service";
+import useLoading from "./useLoading";
 
 interface ILoanContext {
     createLoanApproval: (loanData: IRequestLoanForm) => Promise<void>;
     getLoan: () => Promise<IGetLoan | null>;
     loan: IGetLoan | null;
-    payLoan: (loan: IPayLoan) => Promise<void>;
+    payLoan: () => Promise<void>;
     acceptLoan: (approval: string) => Promise<void>;
 }
 
@@ -32,11 +38,12 @@ type ContentLayout = {
 export function LoanProvider({ children }: ContentLayout) {
     const { user } = useUserAuth();
     const [loan, setLoan] = useState<IGetLoan | null>(null);
+    console.log(loan);
     const { onStart, onFinish } = useLoading();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user && user.role !== "ADMIN") getLoan();
+        getLoan();
     }, [user]);
 
     const createLoanApproval = async (
@@ -44,35 +51,12 @@ export function LoanProvider({ children }: ContentLayout) {
     ): Promise<void> => {
         onStart("Request");
         const service = new Service(user?.accessToken);
-        const response = await service.request<IRequestLoan>(
+        const response = await service.request<IBackendInterface<any>>(
             endpoints.loan.crateLoanApproval,
             "",
             loanData
         );
 
-        if (response.success) {
-            console.log(response.data.prediction);
-            if (response.data.prediction === 0) {
-                onFinish("Pengajuan anda di tolak");
-            } else {
-                onFinish("Pengajuan berhasil", true);
-            }
-            navigate("/home");
-        } else {
-            onFinish(response.errorMessage, false);
-        }
-    };
-
-    const acceptLoan = async (approval: string): Promise<void> => {
-        onStart("Request");
-        const service = new Service(user?.accessToken);
-        console.log(user?.accessToken);
-        console.log(approval);
-        const response = await service.request<IBackendInterface<any>>(
-            endpoints.loan.acceptLoan,
-            "",
-            { approval: approval }
-        );
         if (response.success) {
             onFinish("Succesfully request", true);
             navigate("/home");
@@ -80,8 +64,46 @@ export function LoanProvider({ children }: ContentLayout) {
             onFinish(response.errorMessage, false);
         }
     };
+
+    const acceptLoan = async (approval: string): Promise<void> => {
+        onStart("Mengambil pinjaman...");
+        const service = new Service(user?.accessToken);
+        const response = await service.request<IBackendInterface<any>>(
+            endpoints.loan.acceptLoan,
+            "",
+            { approval: approval }
+        );
+        if (response.success) {
+            getLoan();
+            onFinish("Succesfully request", true);
+        } else {
+            onFinish(response.errorMessage, false);
+        }
+    };
     const payLoan = async () => {
-        return;
+        if (loan) {
+            const toastId = toastLoading(
+                "Please wait we're checking your account."
+            );
+            const data = {
+                loan: loan.loan.id,
+            };
+            const service = new Service();
+            const response = await service.request<any>(
+                endpoints.loan.payLoan,
+                undefined,
+                data
+            );
+            if (response.success) {
+                getLoan();
+                navigate("/home");
+                toastUpdateSuccess(toastId, "Succesfully pay the loan!");
+            } else {
+                toastUpdateFailed(toastId, "Failed to pay the loan!");
+            }
+        } else {
+            toastError("You dont have any loan in the database");
+        }
     };
 
     const getLoan = async (): Promise<IGetLoan | null> => {

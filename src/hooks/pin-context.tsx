@@ -13,7 +13,7 @@ export function PinProvider({ children }: IChildrenProps) {
   const [success, setSuccess] = useState<boolean>(false);
   const navigate = useNavigate();
   const [time, setTime] = useState<number>(0);
-  const expireTime = 100;
+  const expireTime = 15;
 
   const triggerPin = () => {
     setTime(expireTime);

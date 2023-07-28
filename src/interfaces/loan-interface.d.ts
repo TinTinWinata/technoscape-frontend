@@ -1,7 +1,7 @@
 export interface IRequestLoanForm {
-    user: number;
-    loan_amount: number;
-    loan_days_term: number;
+  user: number;
+  loan_amount: number;
+  loan_days_term: number;
 }
 
 export interface IRequestLoan {
@@ -9,20 +9,37 @@ export interface IRequestLoan {
 }
 
 export interface IAcceptLoan {
-    approval: string;
+  approval: string;
 }
 
 export interface IPayLoan {
-    load: string;
+  load: string;
 }
 
 export interface IGetLoan {
+<<<<<<< HEAD
     loan_approval: IGetLoanApproval;
     loan: {
         id: string;
         is_payed: boolean;
         approval: string;
     };
+=======
+  loan_approval: {
+    created_at: Date;
+    id: string;
+    receiverAccountNo: string;
+    loan_amount: number;
+    loan_days_term: number;
+    is_approved: boolean;
+    user: number;
+  };
+  loan: {
+    id: string;
+    is_payed: boolean;
+    approval: string;
+  };
+>>>>>>> 8d08541ccb549a6413ae5bbb95013a0d0ae6f31a
 }
 
 export interface IGetLoanApproval {
