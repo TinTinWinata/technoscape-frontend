@@ -18,6 +18,7 @@ interface AuthEndpoint {
 }
 
 interface UserEndpoint {
+  userApprove: Endpoint;
   forgotPassword: Endpoint;
   getProfilePicture: Endpoint;
   acviteUser: Endpoint;
@@ -59,6 +60,10 @@ const authEndpoints: AuthEndpoint = {
 };
 
 const userEndpoints: UserEndpoint = {
+  userApprove: {
+    method: Method.POST,
+    url: '/user/approve',
+  },
   forgotPassword: {
     method: Method.POST,
     url: '/forgot-password/generate',

@@ -21,7 +21,6 @@ export default function Login() {
             password: password.value,
             username: username.value,
         };
-        await login(dataForm);
     };
 
     return (

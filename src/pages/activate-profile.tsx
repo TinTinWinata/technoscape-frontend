@@ -35,6 +35,12 @@ const EXAMPLE_QUESTIONS: IFormQuestion[] = [
     answerValue: [],
   },
   {
+    questionValue: 'credit_history',
+    question: 'Apakah anda pernah mempunyai riwayat kartu kredit ?',
+    answer: ['Ya', 'Tidak'],
+    answerValue: [1, 0],
+  },
+  {
     questionValue: 'coappliciant_income',
     question:
       'Jika, anda memiliki pasangan / keluarga berapa jumlah pendapatan bersama pasangan / keluarga anda ?',

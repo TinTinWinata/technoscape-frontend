@@ -7,6 +7,7 @@ import ActivateProfile from './pages/activate-profile';
 import ForgetPassword from './pages/forget-password';
 import Home from './pages/home/home';
 import Login from './pages/login';
+import PayLoan from './pages/pay-loan';
 import Register from './pages/register';
 import { RequestLoan } from './pages/request-loan';
 import ResetPassword from './pages/reset-password';
@@ -36,6 +37,7 @@ function App() {
                 path="/request-loan"
                 element={<RequestLoan></RequestLoan>}
               ></Route>
+              <Route path="/pay-loan" element={<PayLoan></PayLoan>}></Route>
 
               <Route
                 path="/activate-profile"
