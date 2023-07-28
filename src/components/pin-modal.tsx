@@ -3,6 +3,10 @@ import { useState } from 'react';
 import VerificationInput from 'react-verification-input';
 import Button, { ButtonType } from '../components/button';
 import Modal, { IModalProps } from '../components/modal';
+import { useUserAuth } from '../hooks/user-context';
+import { endpoints } from '../settings/endpoint';
+import { toastError } from '../settings/toast-setting';
+import Service from '../utils/service';
 import { numberOnly } from '../utils/validator';
 
 export interface IPinModalProps extends IModalProps {
@@ -17,17 +21,34 @@ export default function PinModal({
   handleSuccess,
 }: IPinModalProps) {
   const [value, setValue] = useState<string>('');
-
+  const { user } = useUserAuth();
   const handleOnChange = (e: any) => {
     setValue(numberOnly(e));
   };
 
-  const handleOnClick = () => {
-    handleSuccess();
+  const handleOnClick = async () => {
+    if (user) {
+      const data = {
+        user_id: user.uid,
+        pin: value,
+      };
+      console.log(data);
+      const service = new Service();
+      const response = await service.request<any>(
+        endpoints.user.pinVerification,
+        undefined,
+        data
+      );
+      if (response.success) {
+        handleSuccess();
+      } else {
+        toastError(response.errorMessage);
+      }
+    }
   };
 
   return (
-    <Modal open={open} setOpen={setOpen}>
+    <Modal open={open}>
       <>
         <div>
           {/* <div className="center mb-6 mt-3">

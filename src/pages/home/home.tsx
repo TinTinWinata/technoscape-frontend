@@ -98,8 +98,9 @@ export default function Home() {
               <p className="font-bold text-2xl">Riwayat Transaksi</p>
               <hr className="my-3" />
               {transaction ? (
-                transaction?.transactions.map((transaction) => (
+                transaction?.transactions.map((transaction, index: number) => (
                   <TransactoinHistory
+                    key={index}
                     amount={transaction.amount}
                     createTime={transaction.transactionDate}
                     accountNo={transaction.senderAccountNo}

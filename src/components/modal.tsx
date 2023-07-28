@@ -4,11 +4,15 @@ import { IChildrenProps } from '../interfaces/children-interface';
 
 export interface IModalProps extends IChildrenProps {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
   width?: string;
 }
 
-export default function Modal({ children, open, setOpen }: IModalProps) {
+export default function Modal({
+  children,
+  open,
+  setOpen = () => {},
+}: IModalProps) {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
