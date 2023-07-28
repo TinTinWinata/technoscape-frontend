@@ -50,21 +50,19 @@ class Service {
             const parameterService = new Parameter(url, parameters);
             url = parameterService.getUrl();
         }
-
-        console.log(url);
         try {
-            return (await this.getResponse(
-                endpoint.method,
-                data,
-                url
-            )) as IBackendInterface<T>;
+            return (await this.getResponse(endpoint.method, data, url))
+                .data as IBackendInterface<T>;
         } catch (err) {
             const { response } = err as any;
+            console.log(err);
+            console.log(response);
             return {
                 data: undefined,
-                errorMessage: response.data
-                    ? response.data.errorMessage
-                    : "Error Please contact Blue Jacket Team.",
+                errorMessage:
+                    response.data && response.status !== 500
+                        ? response.data.errorMessage
+                        : "Error Please contact Blue Jacket Team.",
                 success: false,
             } as IBackendInterface<T>;
         }

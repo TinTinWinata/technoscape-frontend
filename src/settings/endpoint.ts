@@ -45,15 +45,15 @@ interface EndpointList {
 
 const authEndpoints: AuthEndpoint = {
     login: {
-        url: "/user/login",
-        method: Method.POST,
-    },
-    logout: {
-        url: "/user/logout",
+        url: "/user/auth/login",
         method: Method.POST,
     },
     register: {
         url: "/user/auth/create",
+        method: Method.POST,
+    },
+    logout: {
+        url: "/user/logout",
         method: Method.POST,
     },
 };

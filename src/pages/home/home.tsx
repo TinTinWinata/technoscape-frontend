@@ -27,7 +27,7 @@ export default function Home() {
                     <Greeting />
                   </div>
                   <p className="uppercase text-xl  font-normal">
-                    Justine Winata Purwoko
+                    {user?.username}
                   </p>
                   <div className="relative  h-20 ">
                     <p className="text-normal absolute left-0 top-0">Rp</p>
