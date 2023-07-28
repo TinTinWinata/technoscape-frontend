@@ -4,6 +4,7 @@ import {
   FcMoneyTransfer,
   FcMultipleDevices,
   FcPortraitMode,
+  FcViewDetails,
 } from 'react-icons/fc';
 import { TransactoinHistory } from '../../components/TransactionHistory';
 import Greeting from '../../components/greeting';
@@ -61,26 +62,36 @@ export default function Home() {
                     name="Peminjaman"
                   />
                   <HomeIcon
+                    link="/history-loan"
+                    color="red"
+                    icon={
+                      <FcViewDetails className="w-full absolute z-10 h-full" />
+                    }
+                    name="Riwayat Peminjaman"
+                  />
+                  <HomeIcon
                     link="/pay-loan"
                     color="blue"
                     icon={<FcDebt className="w-full absolute z-10 h-full" />}
                     name="Bayar Peminjaman"
                   />
-                  <HomeIcon
-                    link="/activate-profile"
-                    color="blue"
-                    icon={
-                      <FcPortraitMode className="w-full absolute z-10 h-full" />
-                    }
-                    name="Validasi Akun"
-                  />
+                  {user && user?.is_approved && (
+                    <HomeIcon
+                      link="/activate-profile"
+                      color="blue"
+                      icon={
+                        <FcPortraitMode className="w-full absolute z-10 h-full" />
+                      }
+                      name="Validasi Akun"
+                    />
+                  )}
                 </div>
               </div>
             </div>
           </div>
           <div className="w-full grid grid-cols-3 gap-4 mt-8">
             <div className="col-span-2 bg-white shadow-lg p-6 rounded-lg">
-              <p className="font-bold text-xl">Riwayat Transaksi</p>
+              <p className="font-bold text-2xl">Riwayat Transaksi</p>
               <TransactoinHistory
                 amount={20000}
                 createTime={1686725002}
@@ -97,7 +108,12 @@ export default function Home() {
               />
             </div>
             <div className="bg-white shadow-lg p-6">
-              <p className="font-bold text-xl">Riwayat Peminjaman</p>
+              <p className="font-bold text-2xl mt-3 text-center">
+                Riwayat Peminjaman
+              </p>
+              <div className="center">
+                <hr className="mt-3 w-2/3 mb-2" />
+              </div>
               <LoanProgress />
             </div>
           </div>

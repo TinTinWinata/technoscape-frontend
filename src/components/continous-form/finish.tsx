@@ -13,11 +13,10 @@ interface IFormFinishProps {
 }
 
 export default function Finish({ answers }: IFormFinishProps) {
-  // const { data } = UseDiabetics(answers);
   const [success, setSuccess] = useState<boolean>(false);
   const navigate = useNavigate();
   const handleBack = () => navigate('/home');
-  const { user } = useUserAuth();
+  const { user, approve } = useUserAuth();
   const getLottieAsset = (): string => {
     if (success) {
       return '/animation/star.json';
@@ -63,6 +62,8 @@ export default function Finish({ answers }: IFormFinishProps) {
         data
       );
       if (request.success) {
+        setSuccess(true);
+        approve();
         toastSuccess('Succesfully activated account');
       } else {
         toastError('Failed to activated account');

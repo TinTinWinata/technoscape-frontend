@@ -12,9 +12,9 @@ export default function Navbar() {
         <div className="mx-2 cursor-pointer hover:underline" onClick={logout}>
           Logout
         </div>
-        <Link className="mx-2 hover:underline" to="/">
+        {/* <Link className="mx-2 hover:underline" to="/">
           Login
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

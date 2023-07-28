@@ -9,4 +9,5 @@ export interface ISession {
   email: string;
   username: string;
   accessToken: string;
+  is_approved: boolean;
 }

@@ -11,6 +11,7 @@ import PayLoan from './pages/pay-loan';
 import Register from './pages/register';
 import { RequestLoan } from './pages/request-loan';
 import ResetPassword from './pages/reset-password';
+import 'react-circular-progressbar/dist/styles.css';
 
 function App() {
   return (
