@@ -51,3 +51,8 @@ export const manipulateMoney = (amount: number) => {
 export const manipulateRangeLoan = (range: number) => {
   return range * 30;
 };
+
+export function convertSeparator(numberStr: string): string {
+  const regex = /\B(?=(\d{3})+(?!\d))/g;
+  return numberStr.replace(regex, '.');
+}

@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ILoginForm } from '../interfaces/backend/login-form-interface';
 import { IRegisterForm } from '../interfaces/backend/register-form-interface';
+import { IBackendAccount } from '../interfaces/bank-account-interface';
+import { IBackendTransaction } from '../interfaces/transaction-interface';
 import { ISession } from '../interfaces/user-interface';
 import { endpoints } from '../settings/endpoint';
 import {
@@ -20,6 +22,8 @@ interface IUserContext {
   user: ISession | null;
   register: (form: IRegisterForm) => Promise<void>;
   fetchUser: () => Promise<void>;
+  bankInfo: IBackendAccount | null;
+  transaction: IBackendTransaction | null;
 }
 
 const userContext = createContext({} as IUserContext);
@@ -30,6 +34,10 @@ type ContentLayout = {
 
 export function UserProvider({ children }: ContentLayout) {
   const [user, setUser] = useState<ISession | null>(null);
+  const [bankInfo, setBankInfo] = useState<IBackendAccount | null>(null);
+  const [transaction, setTransaction] = useState<IBackendTransaction | null>(
+    null
+  );
   const { onStart, onFinish } = useLoading();
   const navigate = useNavigate();
   const service: Service = new Service(undefined, true);
@@ -37,6 +45,16 @@ export function UserProvider({ children }: ContentLayout) {
   function isAuth() {
     return user === undefined || user === null || user === undefined;
   }
+
+  const checkInfo = async () => {
+    const temp = await getBankInfo();
+    setBankInfo(temp);
+    await fetchTransaction();
+  };
+
+  useEffect(() => {
+    checkInfo();
+  }, [user]);
 
   useEffect(() => checkStorage(), []);
 
@@ -52,6 +70,22 @@ export function UserProvider({ children }: ContentLayout) {
       navigate('/login');
     } else {
       toastUpdateFailed(toastId, response.errorMessage);
+    }
+  };
+
+  const fetchTransaction = async () => {
+    if (user && bankInfo) {
+      const service = new Service(user.accessToken);
+      const data = {
+        accountNo: bankInfo.accountNo,
+        pageNumber: 1,
+      };
+      const response = await service.request<IBackendTransaction | null>(
+        endpoints.user.getTransaction,
+        undefined,
+        data
+      );
+      setTransaction(response.data);
     }
   };
 
@@ -100,9 +134,29 @@ export function UserProvider({ children }: ContentLayout) {
     );
   };
 
+  const getBankInfo = async (): Promise<IBackendAccount | null> => {
+    if (user) {
+      const service = new Service(user.accessToken);
+      const response = await service.request<IBackendAccount>(
+        endpoints.user.getBankAccount
+      );
+      return response.data;
+    }
+    return null;
+  };
   return (
     <userContext.Provider
-      value={{ approve, logout, register, login, user, isAuth, fetchUser }}
+      value={{
+        transaction,
+        approve,
+        logout,
+        register,
+        login,
+        user,
+        isAuth,
+        fetchUser,
+        bankInfo,
+      }}
     >
       {children}
     </userContext.Provider>

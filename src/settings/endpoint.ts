@@ -24,9 +24,11 @@ interface UserEndpoint {
   acviteUser: Endpoint;
   updateProfilePictureUser: Endpoint;
   updateGeneralUser: Endpoint;
+  getTransaction: Endpoint;
   getProfileUser: Endpoint;
   changePassword: Endpoint;
   changeForgotPassword: Endpoint;
+  getBankAccount: Endpoint;
   validateForgotPassword: Endpoint;
 }
 
@@ -60,6 +62,10 @@ const authEndpoints: AuthEndpoint = {
 };
 
 const userEndpoints: UserEndpoint = {
+  getTransaction: {
+    method: Method.POST,
+    url: '/user/transaction/info',
+  },
   userApprove: {
     method: Method.POST,
     url: '/user/approve',
@@ -79,6 +85,10 @@ const userEndpoints: UserEndpoint = {
   getProfileUser: {
     url: '/user/profile',
     method: Method.GET,
+  },
+  getBankAccount: {
+    url: '/user/bank-account',
+    method: Method.POST,
   },
   updateProfilePictureUser: {
     url: '/user/update/profile-picture',
