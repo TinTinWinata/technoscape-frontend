@@ -12,6 +12,7 @@ export interface Endpoint {
 }
 
 interface AuthEndpoint {
+  register: Endpoint;
   login: Endpoint;
   logout: Endpoint;
 }
@@ -36,6 +37,10 @@ interface EndpointList {
 const authEndpoints: AuthEndpoint = {
   login: {
     url: '/user/login',
+    method: Method.POST,
+  },
+  register: {
+    url: '/user/auth/create',
     method: Method.POST,
   },
   logout: {

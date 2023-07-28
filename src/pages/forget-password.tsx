@@ -22,12 +22,12 @@ export default function ForgetPassword() {
       undefined,
       data
     );
-    if (response.isError) {
-      onFinish(response.data as string, false);
-    } else {
-      const data = response.data as IDetailResponse;
-      onFinish(data.detail, true);
-    }
+    // if (response.isError) {
+    // onFinish(response.data as string, false);
+    // } else {
+    //   const data = response.data as IDetailResponse;
+    //   onFinish(data.detail, true);
+    // }
   };
   return (
     <div className="">
