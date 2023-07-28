@@ -47,3 +47,8 @@ width: 350px;
   outline: 2px solid #FFC144;
 }
 
+
+
+.custom-shadow{
+  box-shadow: -3px 0px 51px 16px rgba(0,0,0,0.1);
+}
