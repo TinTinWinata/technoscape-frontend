@@ -1,4 +1,4 @@
 export interface ILoginForm {
-  username: string;
-  loginPassword: string;
+    username: string;
+    password: string;
 }

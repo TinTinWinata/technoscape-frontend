@@ -11,7 +11,7 @@ export const RequestLoan = () => {
     const { user } = useUserAuth();
     const { createLoanApproval } = useLoan();
 
-    const requestLoan = async (e: ChangeEvent<HTMLFormElement>) => {
+    const handleRequestLoan = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!user) return;
         const { loan_amount, loan_days_term } = e.target;
@@ -41,7 +41,7 @@ export const RequestLoan = () => {
                             <FcMultipleDevices className="w-14 h-14 bg-green" />
                         </div>
                     </div>
-                    <form onSubmit={requestLoan}>
+                    <form onSubmit={handleRequestLoan}>
                         <div className="flex flex-col mt-4 gap-2">
                             <label
                                 htmlFor="amount"
