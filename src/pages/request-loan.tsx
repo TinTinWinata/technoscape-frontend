@@ -3,25 +3,22 @@ import Button, { ButtonType } from "../components/button";
 import Navbar from "../components/navbar";
 import { FcMultipleDevices } from "react-icons/fc";
 import { IRequestLoanForm } from "../interfaces/loan-interface";
-import { useNavigate } from "react-router-dom";
-import useLoading from "../hooks/useLoading";
 import { useUserAuth } from "../hooks/user-context";
 import { useLoan } from "../hooks/loan-context";
+import { manipulateRangeLoan } from "../utils/stringManipulation";
 
 export const RequestLoan = () => {
-    const { isLoading, onStart, onFinish } = useLoading();
-    const navigate = useNavigate();
     const { user } = useUserAuth();
     const { createLoanApproval } = useLoan();
 
     const requestLoan = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (!user) return;
         const { loan_amount, loan_days_term } = e.target;
         const loanData: IRequestLoanForm = {
             loan_amount: loan_amount.value,
-            loan_days_term: loan_days_term.value,
-            uid: 66,
-            receiverAccountNo: 5859458619142490,
+            loan_days_term: manipulateRangeLoan(loan_days_term.value),
+            user: user.uid,
         };
         await createLoanApproval(loanData);
     };

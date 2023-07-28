@@ -39,7 +39,7 @@ export class Parameter {
         } else {
             this.url += `&`;
         }
-        this.url += `${name}${isArray && "[]"}=${value}`;
+        this.url += `${name}${isArray ? "[]" : ""}=${value}`;
         this.addedData += 1;
     }
 }
