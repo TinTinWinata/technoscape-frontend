@@ -60,7 +60,6 @@ export function UserProvider({ children }: ContentLayout) {
       '',
       form
     );
-    console.log(response);
     if (response.success) {
       saveToStorage(response.data);
       toastUpdateSuccess(toastId, 'Succesfully Login');
@@ -77,6 +76,7 @@ export function UserProvider({ children }: ContentLayout) {
     }
   };
   const saveToStorage = (user: ISession) => {
+    setUser(user);
     localStorage.setItem('user', JSON.stringify(user));
   };
 
