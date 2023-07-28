@@ -18,7 +18,7 @@ export default function Login() {
 
     const { username, password } = e.target;
     const dataForm: ILoginForm = {
-      loginPassword: password.value,
+      password: password.value,
       username: username.value,
     };
     await login(dataForm);

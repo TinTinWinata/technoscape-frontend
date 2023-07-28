@@ -1,6 +1,12 @@
+import { Player } from '@lottiefiles/react-lottie-player';
+import { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import { useUserAuth } from '../../hooks/user-context';
 import { IFormAnswer } from '../../interfaces/form-answer-interface';
+import { endpoints } from '../../settings/endpoint';
+import { toastError, toastSuccess } from '../../settings/toast-setting';
+import Service from '../../utils/service';
 
 interface IFormFinishProps {
   answers: IFormAnswer[];
@@ -8,38 +14,61 @@ interface IFormFinishProps {
 
 export default function Finish({ answers }: IFormFinishProps) {
   // const { data } = UseDiabetics(answers);
+  const [success, setSuccess] = useState<boolean>(false);
   const navigate = useNavigate();
-  const handleBack = () => navigate('/');
-  // const getLottieAsset = (): string => {
-  //   if (!data) {
-  //     return '/assets/loading.json';
-  //   } else if (data.result[0] == 0) {
-  //     return '/assets/sickness.json';
-  //   } else if (data.result[0] == 1) {
-  //     return '/assets/strong.json';
-  //   }
-  //   return '/assets/loading.json';
-  // };
-  // const getLottieString = (): string => {
-  //   if (!data) {
-  //     return 'Please wait were checking all your answers!';
-  //   } else if (data.result[0] == 0) {
-  //     return 'Kamu harus senantiasa menjaga kesehatan dengan pola makan sehat, olahraga teratur, dan memantau kadar gula darah untuk mencegah terjadinya komplikasi yang bisa membahayakan kesehatan saya di masa depan.';
-  //   } else if (data.result[0] == 1) {
-  //     return 'Kamu harus tetap menjaga kesehatan dengan pola makan yang sehat dan aktif berolahraga agar terhindar dari risiko diabetes dan memiliki gaya hidup yang lebih sehat dan bugar.';
-  //   }
-  //   return '/assets/loading.json';
-  // };
-  // const getLottieTitle = (): string => {
-  //   if (!data) {
-  //     return '';
-  //   } else if (data.result[0] == 0) {
-  //     return 'Kamu tidak aman';
-  //   } else if (data.result[0] == 1) {
-  //     return 'Kamu aman';
-  //   }
-  //   return '/assets/loading.json';
-  // };
+  const handleBack = () => navigate('/home');
+  const { user } = useUserAuth();
+  const getLottieAsset = (): string => {
+    if (success) {
+      return '/animation/star.json';
+    }
+    return '/animation/loading.json';
+  };
+  const getLottieString = (): string => {
+    if (!success) {
+      return 'Sebentar kita melakukan check dalam jawaban anda!';
+    }
+    return 'Data mu telah tersimpan, sekarang kamu dapat melakukan request loan ';
+  };
+  const getLottieTitle = (): string => {
+    if (!success) {
+      return '';
+    }
+    return 'Aktivasi Akun Berhasil!';
+  };
+
+  interface IResultType {
+    [key: string]: number;
+  }
+
+  const dataConverter = (answers: IFormAnswer[]) => {
+    return answers.reduce((acc: IResultType, { name, value }) => {
+      acc[name] = value;
+      return acc;
+    }, {});
+  };
+
+  useEffect(() => {
+    saveToDatabase();
+  }, [answers]);
+
+  const saveToDatabase = async () => {
+    if (answers && user) {
+      const data = dataConverter(answers);
+      data.user_id = user.uid;
+      const service = new Service();
+      const request = await service.request<any>(
+        endpoints.user.userApprove,
+        undefined,
+        data
+      );
+      if (request.success) {
+        toastSuccess('Succesfully activated account');
+      } else {
+        toastError('Failed to activated account');
+      }
+    }
+  };
 
   return (
     <>
@@ -51,11 +80,9 @@ export default function Finish({ answers }: IFormFinishProps) {
       </div>
       <hr />
       <div className="text-center  flex flex-col center w-full h-full">
-        {/* <Player className="w-52 h-52" src={getLottieAsset()} autoplay loop /> */}
-        {/* <h3 className="font-semibold text-2xl ">{getLottieTitle()}</h3> */}
-        <p className="mt-2 text-gray-500 dark:text-gray-200">
-          {/* {getLottieString()} */}
-        </p>
+        <Player className="w-52 h-52" src={getLottieAsset()} autoplay loop />
+        <h3 className="font-semibold text-2xl ">{getLottieTitle()}</h3>
+        <p className="mt-2 text-gray-500 ">{getLottieString()}</p>
 
         {/* Invicible Button */}
         <div className="h-16"></div>
@@ -63,7 +90,7 @@ export default function Finish({ answers }: IFormFinishProps) {
         {/* Real Button */}
         <Link
           to="/home"
-          className="absolute px-2 py-3 rounded-b-lg bottom-0 font-semibold bg-blue-600 hover:bg-blue-700 text-gray-50  dark:hover:bg-blue-700 transition-all w-full dark:bg-blue-600"
+          className="absolute px-2 py-3 rounded-b-lg bottom-0 font-semibold bg-primary hover:bg-primary text-gray-50   transition-all w-full "
         >
           Home
         </Link>
