@@ -100,7 +100,9 @@ export default function Home() {
               ) : (
                 <>
                   <div className="w-full flex justify-between">
-                    <p className="font-bold text-2xl">Riwayat Transaksi</p>
+                    <p className="font-bold text-lg sm:text-2xl">
+                      Riwayat Transaksi
+                    </p>
                     <HomeFilter defaultValue={transaction?.filter} />
                   </div>
                   <hr className="my-3" />
