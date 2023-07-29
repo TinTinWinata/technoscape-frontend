@@ -1,16 +1,14 @@
-import { ChangeEvent } from "react";
 import { BsFillCreditCard2FrontFill } from "react-icons/bs";
 import { MdEmail, MdPerson, MdPhone } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
 import Form, { FormType } from "../components/form";
 import Input from "../components/input";
 import RadioButton from "../components/radio-button";
+import { RegisterSlider } from "../components/register-slider";
+import useLoading from "../hooks/useLoading";
 import { useUserAuth } from "../hooks/user-context";
 import { IRegisterForm } from "../interfaces/backend/register-form-interface";
-import useLoading from "../hooks/useLoading";
 import { isAlphanumberic } from "../utils/validator";
-import { RegisterSlider } from "../components/register-slider";
 
 export default function Register() {
     const { register } = useUserAuth();
@@ -51,13 +49,13 @@ export default function Register() {
     };
 
     return (
-        <div className="grid grid-cols-3 w-[80%]  rounded-lg">
+        <div className="md:grid flex items-center justify-center  md:items-stretch    grid-cols-1 md:grid-cols-3 w-[80%] rounded-lg">
             <RegisterSlider />
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col">
                 <Form
                     title="Buat Akun Baru"
                     subTitle="Buat kredensial Anda sendiri untuk mengakses bisa aplikasi kami."
-                    width="450px"
+                    width="w-full"
                     onSubmit={handleRegister}
                     buttonName="Create Account"
                     formType={FormType.Register}

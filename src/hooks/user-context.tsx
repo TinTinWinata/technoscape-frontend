@@ -59,8 +59,10 @@ export function UserProvider({ children }: ContentLayout) {
     }
 
     const refetchInfo = async () => {
-        const temp = await getBankInfo();
-        setBankInfo(temp);
+        if (user && user.role !== "ADMIN") {
+            const temp = await getBankInfo();
+            setBankInfo(temp);
+        }
     };
 
     useEffect(() => {
@@ -103,8 +105,6 @@ export function UserProvider({ children }: ContentLayout) {
                 undefined,
                 data
             );
-
-            console.log(response);
             setTransaction(response.data);
         }
         setTransactionLoading(false);

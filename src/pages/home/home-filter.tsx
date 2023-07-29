@@ -4,9 +4,13 @@ import HomeFilterIcon from './home-filter-icon';
 
 const allFilters = ['Semua', 'Masuk', 'Keluar'];
 
-export default function HomeFilter() {
+interface IHomeFilterProps {
+  defaultValue?: number;
+}
+
+export default function HomeFilter({ defaultValue = 0 }: IHomeFilterProps) {
   const { fetchTransaction } = useUserAuth();
-  const [filter, setFilter] = useState<number>(0);
+  const [filter, setFilter] = useState<number>(defaultValue);
   const handleClick = (index: number) => {
     console.log(filter, index);
     if (filter !== index && index === 0) {

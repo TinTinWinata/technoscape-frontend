@@ -18,7 +18,7 @@ export default function HomeFilterIcon({
     <div
       onClick={onClick}
       className={
-        ' transition-all px-2 cursor-pointer hover:text-white font-semibold hover:bg-primary text-center text-sm  border rounded-md border-md hover:border-primary border-opacity-50  py-1 ' +
+        ' transition-all px-2 cursor-pointer hover:text-white font-semibold hover:bg-primary center text-center text-sm  border rounded-md border-md hover:border-primary border-opacity-50  py-1 ' +
         getActiveClass()
       }
     >

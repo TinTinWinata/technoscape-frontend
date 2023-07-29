@@ -5,7 +5,11 @@ import { InsideForm } from '../components/inside-form';
 import Navbar from '../components/navbar';
 import { useLoan } from '../hooks/loan-context';
 import { usePin } from '../hooks/pin-context';
-import { dateAddDay, dateDifference } from '../utils/date-manipulation';
+import {
+  dateAddDay,
+  dateDifference,
+  monthDifference,
+} from '../utils/date-manipulation';
 import { manipulateMoney } from '../utils/string-manipulation';
 
 export default function PayLoan() {
@@ -22,12 +26,28 @@ export default function PayLoan() {
 
   const calculateTotal = () => {
     if (!loan) return 0;
-    return loan.loan_approval.loan_amount + calculateRate();
+    return (
+      loan.loan_approval.loan_amount + calculateRate() + calculateMonthRate()
+    );
   };
 
   const calculateRate = () => {
     if (!loan) return 0;
     return (loan.loan_approval.rate * loan.loan_approval.loan_amount) / 100;
+  };
+
+  const getMonthDifference = () => {
+    if (loan) {
+      let temp = monthDifference(new Date(), loan.loan_approval.created_at);
+      return temp;
+    }
+    return 0;
+  };
+
+  const calculateMonthRate = () => {
+    if (!loan) return 0;
+    const month = getMonthDifference();
+    return (month * loan.loan_approval.loan_amount) / 100;
   };
 
   return (
@@ -38,9 +58,9 @@ export default function PayLoan() {
         subTitle="Pinjaman Cepat & Mudah untuk Kebutuhan Anda"
         onSubmit={handlePayloan}
       >
-        <div className="flex pt-10">
-          <div className="grow">
-            <div className="flex justify-between px-3 pt-3">
+        <div className="flex pt-10 h-full">
+          <div className="grow flex flex-col h-full ">
+            <div className="flex justify-between px-3 pt-3 mb-1">
               <div className="font-bold">Akun</div>
               <div className=""></div>
               {loan && (
@@ -71,12 +91,27 @@ export default function PayLoan() {
             </div>
             <hr className="w-full border border-opacity-50" />
             <div className="flex justify-between p-3">
-              <div className="font-semibold">Bunga</div>
+              <div className="font-normal">Bunga Tetap</div>
               <div className=""></div>
               <div className="">{manipulateMoney(calculateRate())}</div>
             </div>
+            {getMonthDifference() > 0 && (
+              <div className="flex justify-between px-3">
+                <div className="font-normal">
+                  Bunga per Bulan{' '}
+                  <span className="font-semibold">
+                    ( x {getMonthDifference()})
+                  </span>
+                </div>
+                <div className=""></div>
+                <div className="">{manipulateMoney(calculateMonthRate())}</div>
+              </div>
+            )}
+            <div className=" sm:hidden grow flex flex-col justify-end">
+              <Button>Bayar</Button>
+            </div>
           </div>
-          <div className="w-[30%]  mx-10 rounded-lg custom-shadow-2 ">
+          <div className="hidden sm:block w-[30%]  mx-10 rounded-lg custom-shadow-2 h-fit">
             <div className="relative overflow-hidden w-full h-32">
               <div className=" absolute w-full h-full left-[50%] translate-x-[-50%] top-[20%] ">
                 <Player

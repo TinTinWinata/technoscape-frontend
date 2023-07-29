@@ -1,18 +1,31 @@
 import { useNavigate } from 'react-router-dom';
+import { toastError } from '../../settings/toast-setting';
 
 interface IHomeIconProps {
   color: string;
   icon: JSX.Element;
   name: string;
   link: string;
+  active?: boolean;
+  textNotActive?: string;
 }
 
-export default function HomeIcon({ link, color, icon, name }: IHomeIconProps) {
+export default function HomeIcon({
+  link,
+  color,
+  icon,
+  name,
+  active = true,
+  textNotActive = 'Tidak bisa melakukan redirect ke page ini.',
+}: IHomeIconProps) {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(link);
+    if (active) {
+      navigate(link);
+    } else {
+      toastError(textNotActive);
+    }
   };
-
   return (
     <div
       onClick={handleClick}

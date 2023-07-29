@@ -1,6 +1,7 @@
 import { IBackendAccount } from './bank-account-interface';
 
 export interface IBackendTransaction {
+  filter: number;
   transactions: [
     {
       uid: number;

@@ -1,8 +1,8 @@
-import { useLoan } from '../hooks/loan-context';
-
 import { Player } from '@lottiefiles/react-lottie-player';
 import { ChangeEvent } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import Skeleton from 'react-loading-skeleton';
+import { useLoan } from '../hooks/loan-context';
 import { IGetLoan } from '../interfaces/loan-interface';
 import { dateAddDay, dateDifference } from '../utils/date-manipulation';
 import {
@@ -21,7 +21,7 @@ export function NoHaveLoan() {
 
 export function LoanStillProgress() {
   return (
-    <div className="center text-center w-full h-full text-gray-400">
+    <div className="w-2/3 center text-center  h-full text-gray-400">
       Peminjaman anda sedang dalam tahap approval
     </div>
   );
@@ -152,7 +152,7 @@ export function AlreadyPayedLoan() {
 }
 
 export function LoanProgress() {
-  const { getLoan, loan, acceptLoan, payLoan } = useLoan();
+  const { isLoading, loan, acceptLoan } = useLoan();
 
   const handleAcceptLoan = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -162,7 +162,13 @@ export function LoanProgress() {
   };
   return (
     <div className="w-full grow center">
-      {loan === null && <NoHaveLoan />}
+      {isLoading && (
+        <div className="w-full h-full">
+          <Skeleton count={1} height={30} />
+          <Skeleton count={1} height={320} />
+        </div>
+      )}
+      {!isLoading && loan === null && <NoHaveLoan />}
       {loan &&
         loan.loan_approval &&
         loan.loan_approval.is_approved === null && <LoanStillProgress />}

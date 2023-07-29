@@ -27,6 +27,7 @@ interface UserEndpoint {
     getTransaction: Endpoint;
     createTransaction: Endpoint;
     getProfileUser: Endpoint;
+
     changePassword: Endpoint;
     changeForgotPassword: Endpoint;
     getBankAccount: Endpoint;
@@ -39,8 +40,10 @@ interface LoanEndpoint {
     crateLoanApproval: Endpoint;
     acceptLoan: Endpoint;
     approveLoanApproval: Endpoint;
+    approveLoanUnapprove: Endpoint;
     getLoan: Endpoint;
     payLoan: Endpoint;
+    getAllHistoryLoan: Endpoint;
     getAllLoan: Endpoint;
 }
 
@@ -143,11 +146,19 @@ export const loanEndpoints: LoanEndpoint = {
         url: "/loan/approval/approve",
         method: Method.PUT,
     },
+    approveLoanUnapprove: {
+        url: "/loan/approval/unapprove",
+        method: Method.PUT,
+    },
     getLoan: {
         url: "/loan/get",
         method: Method.GET,
     },
     getAllLoan: {
+        url: "/loan/approval/get",
+        method: Method.GET,
+    },
+    getAllHistoryLoan: {
         url: "/loan/history",
         method: Method.GET,
     },

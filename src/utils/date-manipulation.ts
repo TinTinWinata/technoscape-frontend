@@ -20,3 +20,11 @@ export function dateDifference(startDate: Date, endDate: Date) {
   const diffInDays = diffInMilliseconds / (1000 * 60 * 60 * 24);
   return diffInDays;
 }
+
+export function monthDifference(startDate: Date, endDate: Date) {
+  const start = checkDate(startDate);
+  const end = checkDate(endDate);
+  const diffInDays = dateDifference(start, end);
+  const diffInMonths = diffInDays / 30;
+  return Math.round(diffInMonths);
+}

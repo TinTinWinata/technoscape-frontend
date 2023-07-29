@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { MdPerson } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import useLoading from "../hooks/useLoading";
 import { useUserAuth } from "../hooks/user-context";
 import { ILoginForm } from "../interfaces/backend/login-form-interface";
 
-export default function Login() {
+export default function LoginPage() {
     const { login } = useUserAuth();
     const { isLoading, onStart, onFinish } = useLoading();
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function Login() {
             password: password.value,
             username: username.value,
         };
-        await login(dataForm);
+        login(dataForm);
     };
 
     return (
