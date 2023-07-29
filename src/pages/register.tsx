@@ -9,6 +9,7 @@ import useLoading from "../hooks/useLoading";
 import { useUserAuth } from "../hooks/user-context";
 import { IRegisterForm } from "../interfaces/backend/register-form-interface";
 import { isAlphanumberic } from "../utils/validator";
+import { ChangeEvent } from "react";
 
 export default function Register() {
     const { register } = useUserAuth();
