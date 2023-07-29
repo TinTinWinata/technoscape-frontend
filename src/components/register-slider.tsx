@@ -21,23 +21,7 @@ export function RegisterSlider() {
 
     const nextSlide = () => {
         setSlide((prev) => (prev + 1) % imageData.length);
-        // setPercentage(
-        //     (percentage) => ((slide * 100) % (imageData.length * 100)) - 100
-        // );
-
-        // setPercentage((prev) => prev + 100);
-
-        // console.log(slide);
-
-        // console.log(percentage);
     };
-
-    // const moveSlide = () => {
-    //     setSlide((prev) => (prev + 1) % imageData.length);
-    //     const percentage =
-
-    //     return `translateX(${percentage}%)`;
-    // };
 
     useEffect(() => {
         const intervalId = setInterval(() => {

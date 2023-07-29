@@ -117,7 +117,7 @@ export function UserProvider({ children }: ContentLayout) {
     };
 
     const login = async (form: ILoginForm): Promise<void> => {
-        const toastId = toastLoading("Kami sedang membuat kamu masuk");
+        const toastId = toastLoading("Mohon tunggu");
         const response = await service.request<ISession>(
             endpoints.auth.login,
             "",
@@ -125,7 +125,7 @@ export function UserProvider({ children }: ContentLayout) {
         );
         if (response.success) {
             saveToStorage(response.data);
-            toastUpdateSuccess(toastId, "Succesfully Login");
+            toastUpdateSuccess(toastId, "Berhasil masuk");
             if (response.data.role === "ADMIN") {
                 navigate("/admin/home");
             } else {
@@ -190,7 +190,7 @@ export function UserProvider({ children }: ContentLayout) {
             else {
                 await refetchInfo();
                 toastSuccess(
-                    `Succesfully transfer to ${receiverNumber} account!`
+                    `Berhasil transfer ke rekening ${receiverNumber} !`
                 );
             }
         }

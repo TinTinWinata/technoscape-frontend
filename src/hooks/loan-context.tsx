@@ -82,7 +82,7 @@ export function LoanProvider({ children }: ContentLayout) {
         );
         if (response.success) {
             getLoan();
-            onFinish("Succesfully request", true);
+            onFinish("Berhail mengambil peminjaman", true);
             refetchInfo();
         } else {
             onFinish(response.errorMessage, false);
@@ -90,9 +90,7 @@ export function LoanProvider({ children }: ContentLayout) {
     };
     const payLoan = async () => {
         if (loan && user) {
-            const toastId = toastLoading(
-                "Please wait we're checking your account."
-            );
+            const toastId = toastLoading("Mohon tunggu");
             const data = {
                 loan: loan.loan.id,
             };
@@ -106,12 +104,12 @@ export function LoanProvider({ children }: ContentLayout) {
                 getLoan();
                 navigate("/home");
                 refetchInfo();
-                toastUpdateSuccess(toastId, "Succesfully pay the loan!");
+                toastUpdateSuccess(toastId, "Berhasil membayar peminjaman");
             } else {
-                toastUpdateFailed(toastId, "Failed to pay the loan!");
+                toastUpdateFailed(toastId, "Gagal membayar peminjaman");
             }
         } else {
-            toastError("You dont have any loan in the database");
+            toastError("Data peminjaman tidak ada");
         }
     };
 
