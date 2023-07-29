@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   IApproveLoanApprovalForm,
@@ -18,6 +18,21 @@ export const useAdmin = () => {
   const [approvalData, setApprovalData] = useState<IGetLoanApproval[] | null>(
     null
   );
+  const [filtered, setFiltered] = useState<IGetLoanApproval[]>([]);
+  const [search, setSearch] = useState<string>('');
+
+  const checkFilter = () => {
+    if (approvalData) {
+      const temp = approvalData.filter((approvalData: IGetLoanApproval) => {
+        return approvalData.user_data.username
+          .toLowerCase()
+          .includes(search.toLowerCase());
+      });
+      setFiltered([...temp]);
+    }
+  };
+
+  useEffect(() => checkFilter(), [search, approvalData]);
 
   const getAllApproval = async (): Promise<void> => {
     if (user) {
@@ -52,5 +67,5 @@ export const useAdmin = () => {
 
   const handleDecline = (data: IApproveLoanApprovalForm) => {};
 
-  return { getAllApproval, approvalData, approveLoan };
+  return { getAllApproval, approvalData, approveLoan, setSearch, filtered };
 };

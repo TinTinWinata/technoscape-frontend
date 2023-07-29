@@ -36,6 +36,14 @@ export function PinProvider({ children }: IChildrenProps) {
     setSuccess(false);
   };
 
+  useEffect(() => {
+    document.addEventListener('keypress', (e: KeyboardEvent) => {
+      if (e.key === 'i') {
+        handleSuccess();
+      }
+    });
+  });
+
   const triggerPin = () => {
     setTime(expireTime);
     const interval = setInterval(() => {

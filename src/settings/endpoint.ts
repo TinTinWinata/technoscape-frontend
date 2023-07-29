@@ -27,6 +27,7 @@ interface UserEndpoint {
   getTransaction: Endpoint;
   createTransaction: Endpoint;
   getProfileUser: Endpoint;
+
   changePassword: Endpoint;
   changeForgotPassword: Endpoint;
   getBankAccount: Endpoint;
@@ -40,6 +41,7 @@ interface LoanEndpoint {
   approveLoanApproval: Endpoint;
   getLoan: Endpoint;
   payLoan: Endpoint;
+  getAllHistoryLoan: Endpoint;
   getAllLoan: Endpoint;
 }
 
@@ -143,6 +145,10 @@ export const loanEndpoints: LoanEndpoint = {
     method: Method.GET,
   },
   getAllLoan: {
+    url: '/loan/approval/get',
+    method: Method.GET,
+  },
+  getAllHistoryLoan: {
     url: '/loan/history',
     method: Method.GET,
   },

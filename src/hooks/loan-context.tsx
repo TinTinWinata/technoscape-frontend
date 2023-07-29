@@ -21,6 +21,7 @@ import useLoading from './useLoading';
 import { useUserAuth } from './user-context';
 
 interface ILoanContext {
+  isLoading: boolean;
   createLoanApproval: (loanData: IRequestLoanForm) => Promise<void>;
   getLoan: () => Promise<IGetLoan | null>;
   loan: IGetLoan | null;
@@ -39,6 +40,7 @@ export function LoanProvider({ children }: ContentLayout) {
   const [loan, setLoan] = useState<IGetLoan | null>(null);
   const { onStart, onFinish } = useLoading();
   const navigate = useNavigate();
+  const [isLoading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (user && user.role !== 'ADMIN') getLoan();
@@ -81,6 +83,7 @@ export function LoanProvider({ children }: ContentLayout) {
     if (response.success) {
       getLoan();
       onFinish('Succesfully request', true);
+      refetchInfo();
     } else {
       onFinish(response.errorMessage, false);
     }
@@ -112,6 +115,7 @@ export function LoanProvider({ children }: ContentLayout) {
 
   const getLoan = async (): Promise<IGetLoan | null> => {
     if (user) {
+      setLoading(true);
       const service = new Service(user?.accessToken);
       const parameters: IParameter[] = [{ name: 'user_id', value: user?.uid }];
       const response = await service.request<any>(
@@ -123,14 +127,23 @@ export function LoanProvider({ children }: ContentLayout) {
       if (!isEmptyObject(response.data)) {
         setLoan(response.data);
       }
+      setLoading(false);
       return response.data;
     }
+    setLoading(false);
     return null;
   };
 
   return (
     <loanContext.Provider
-      value={{ createLoanApproval, getLoan, loan, acceptLoan, payLoan }}
+      value={{
+        isLoading,
+        createLoanApproval,
+        getLoan,
+        loan,
+        acceptLoan,
+        payLoan,
+      }}
     >
       {children}
     </loanContext.Provider>

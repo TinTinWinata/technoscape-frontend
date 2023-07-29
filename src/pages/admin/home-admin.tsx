@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import InsideLayout from '../../components/inside-layout';
 import Navbar from '../../components/navbar';
 import { useAdmin } from '../../hooks/useAdmin';
@@ -7,7 +7,8 @@ import { IApproveLoanApprovalForm } from '../../interfaces/loan-interface';
 
 export function HomeAdmin() {
   const { user } = useUserAuth();
-  const { getAllApproval, approvalData, approveLoan } = useAdmin();
+  const { getAllApproval, approvalData, approveLoan, setSearch, filtered } =
+    useAdmin();
 
   useEffect(() => {
     user && getAllApproval();
@@ -30,17 +31,28 @@ export function HomeAdmin() {
     }
   };
 
+  const onHandle = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
   return (
     <div className="w-full h-full relative">
       <Navbar></Navbar>
       <InsideLayout>
-        <div className="flex flex-col w-full">
+        <div className="center w-full">
           {approvalData ? (
-            <div className="w-full -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="w-full  overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="center pb-1 w-full">
+                <input
+                  onChange={onHandle}
+                  placeholder="Search"
+                  className="ml-8 py-3 text-sm text-gray-700 px-5 w-[80%] rounded-lg mb-2 focus:outline-none "
+                />
+              </div>
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div className="shadow-md overflow-hidden border-b border-gray-100 sm:rounded">
                   <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-white text-gray-700 ">
+                    <thead className="bg-primary font-semibold text-white">
                       <tr>
                         <th
                           scope="col"
@@ -70,7 +82,7 @@ export function HomeAdmin() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {approvalData.map((data) => {
+                      {filtered.map((data) => {
                         return (
                           <tr key={data.id}>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

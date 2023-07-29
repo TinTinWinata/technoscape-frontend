@@ -52,6 +52,32 @@ export interface IGetLoanApproval {
   };
 }
 
+export interface ILoanHistory {
+  id: string;
+  approval: string;
+  is_payed: boolean;
+  created_at: Date;
+  user_data: {
+    uid: number;
+    username: string;
+    email: string;
+    gender: number;
+    role: string;
+    user_approval: number;
+  };
+  loan_approval_data: {
+    id: string;
+    receiverAccountNo: string;
+    loan_amount: number;
+    loan_days_term: number;
+    is_approved: boolean;
+    rate: number;
+    created_at: Date;
+    is_done: boolean;
+    user: number;
+  };
+}
+
 export interface IApproveLoanApprovalForm {
   loan_approval_id: string;
   user_id: number;

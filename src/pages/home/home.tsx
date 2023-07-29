@@ -1,12 +1,5 @@
 import { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import {
-  FcDebt,
-  FcMoneyTransfer,
-  FcMultipleDevices,
-  FcPortraitMode,
-  FcViewDetails,
-} from 'react-icons/fc';
 import Skeleton from 'react-loading-skeleton';
 import Dog from '../../components/dog';
 import Greeting from '../../components/greeting';
@@ -19,13 +12,13 @@ import { useUserAuth } from '../../hooks/user-context';
 import { IBackendAccount } from '../../interfaces/bank-account-interface';
 import { convertSeparator } from '../../utils/string-manipulation';
 import HomeFilter from './home-filter';
-import HomeIcon from './home-icon';
+import HomeIconContainer from './home-icon-container';
 
 export default function Home() {
   const { transactionLoading, user, bankInfo, transaction, accountLoading } =
     useUserAuth();
 
-  const { loan } = useLoan();
+  const { loan, isLoading: loanLoading } = useLoan();
 
   const [showBalace, setShowBalance] = useState<boolean>(false);
 
@@ -37,13 +30,13 @@ export default function Home() {
     <div className="w-full h-full ">
       <Navbar />
       <InsideLayout>
-        <div className="w-[80%] d-flex relative z-10">
+        <div className="w-[80%] h-fit d-flex relative z-10">
           <Dog />
-          <div className="w-full bg-white relative rounded-xl custom-shadow">
-            <div className="flex">
-              <div className="w-[350px] font-bold bg-primary rounded-br-[50px] rounded-tr-[5px] rounded-l-xl text-white col-span-1">
-                <div className="p-4">
-                  <div className="h-5">
+          <div className="w-full  bg-white  h-[170px] lg:h-fit relative rounded-xl custom-shadow">
+            <div className="flex h-fit">
+              <div className="w-full lg:w-[350px] h-fit  overflow:hidden font-bold bg-primary rounded-br-lg lg:rounded-br-[50px] rounded-tr-[5px] rounded-l-xl text-white col-span-1">
+                <div className="p-4 w-[1000px]  lg:w-[350px]">
+                  <div className="h-5 hidden lg:block">
                     <Greeting />
                   </div>
                   <p className="uppercase text-xl  font-normal">
@@ -80,62 +73,22 @@ export default function Home() {
                         {bankInfo?.accountNo}
                       </div>
                     ) : (
-                      <div className="w-full mt-2 ml-2">
-                        <Skeleton count={1} height="30" width="80%" />
+                      <div className="lg:visible invisible w-full mt-2 ml-2">
+                        <Skeleton count={1} height="50" width="80%" />
                       </div>
                     )}
                   </div>
                 </div>
               </div>
-              <div className="p-5 center grow  ">
-                <div className="center w-full ">
-                  <HomeIcon
-                    link="/transfer"
-                    color="green"
-                    icon={
-                      <FcMoneyTransfer className="w-full absolute z-10 h-full" />
-                    }
-                    name="Transfer"
-                  />
-                  {!loan && (
-                    <HomeIcon
-                      link="/request-loan"
-                      color="red"
-                      icon={
-                        <FcMultipleDevices className="w-full absolute z-10 h-full" />
-                      }
-                      name="Peminjaman"
-                    />
-                  )}
-                  <HomeIcon
-                    link="/history-loan"
-                    color="red"
-                    icon={
-                      <FcViewDetails className="w-full absolute z-10 h-full" />
-                    }
-                    name="Riwayat Peminjaman"
-                  />
-                  <HomeIcon
-                    link="/pay-loan"
-                    color="blue"
-                    icon={<FcDebt className="w-full absolute z-10 h-full" />}
-                    name="Bayar Peminjaman"
-                  />
-                  {user && !user.is_approved && (
-                    <HomeIcon
-                      link="/activate-profile"
-                      color="blue"
-                      icon={
-                        <FcPortraitMode className="w-full absolute z-10 h-full" />
-                      }
-                      name="Validasi Akun"
-                    />
-                  )}
-                </div>
+              <div className="invisible lg:visible p-5 center grow  ">
+                <HomeIconContainer />
               </div>
             </div>
           </div>
-          <div className="w-full grid grid-cols-3 gap-4 mt-8 min-h-[400px]">
+          <div className="mt-6 shadow-lg p-6 rounded-lg visible lg:invisible block lg:hidden">
+            <HomeIconContainer />
+          </div>
+          <div className="w-full  flex flex-col lg:grid lg:grid-cols-3 gap-4 mt-8 min-h-[400px]">
             <div className="col-span-2 bg-white shadow-lg p-6 rounded-lg">
               {transactionLoading ? (
                 <>
@@ -148,16 +101,17 @@ export default function Home() {
                 <>
                   <div className="w-full flex justify-between">
                     <p className="font-bold text-2xl">Riwayat Transaksi</p>
-                    <HomeFilter />
+                    <HomeFilter defaultValue={transaction?.filter} />
                   </div>
                   <hr className="my-3" />
                   {transaction ? (
-                    transaction?.transactions.map(
+                    transaction.transactions.map(
                       (transaction, index: number) => {
                         const current: IBackendAccount =
                           transaction.traxType === 'Transfer masuk'
                             ? transaction.senderAccountInfo
                             : transaction.receiverAccountInfo;
+                        console.log('current : ', current);
                         if (current)
                           return (
                             <TransactionHistory
@@ -182,11 +136,17 @@ export default function Home() {
                 </>
               )}
             </div>
-            <div className="bg-white shadow-lg p-6 flex flex-col">
-              <p className="font-bold text-2xl mt-3 text-center">Peminjaman</p>
-              <div className="center">
-                <hr className="mt-3 w-2/3 mb-2" />
-              </div>
+            <div className="mb-10 lg:mb-0 bg-white shadow-lg p-6 flex flex-col">
+              {!loanLoading && (
+                <>
+                  <p className="font-bold text-2xl mt-3 text-center">
+                    Peminjaman
+                  </p>
+                  <div className="center">
+                    <hr className="mt-3 w-2/3 mb-2" />
+                  </div>
+                </>
+              )}
               <LoanProgress />
             </div>
           </div>
