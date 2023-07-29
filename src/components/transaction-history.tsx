@@ -13,7 +13,7 @@ enum TransferType {
   transferOut = 'Transfer Out',
 }
 
-export function TransactoinHistory({
+export function TransactionHistory({
   amount,
   createTime,
   accountNo,

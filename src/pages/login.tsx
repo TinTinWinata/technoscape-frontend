@@ -10,6 +10,8 @@ import { ILoginForm } from "../interfaces/backend/login-form-interface";
 
 export default function Login() {
     const { login } = useUserAuth();
+    const { isLoading, onStart, onFinish } = useLoading();
+    const navigate = useNavigate();
 
     const handleLogin = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -25,32 +27,34 @@ export default function Login() {
     return (
         <div className="flex flex-col">
             <Form
-                title="Welcome Back"
-                subTitle="Enter your credentials to access your account."
+                title="Selamat Datang"
+                subTitle="Masukkan kredensial Anda untuk mengakses akun Anda."
                 width="450"
                 onSubmit={handleLogin}
-                buttonName="Sign In"
+                buttonName="Masuk"
             >
                 <Input
                     icon={<MdPerson />}
-                    label="Enter your username"
+                    label="Masukan usernama anda"
                     type="text"
                     name="username"
                 />
                 <Input
                     icon={<RiLockPasswordFill />}
-                    label="Enter your password"
+                    label="Masukan password anda"
                     type="password"
                     name="password"
                 />
             </Form>
             <div className="text-sm mt-5 center gap-1">
-                <p className="text-secondaryFont">Forgot your password ?</p>
+                <p className="text-secondaryFont">
+                    Apakah anda lupa dengan password anda ?
+                </p>
                 <Link
                     to="/forgot-password"
                     className="text-primary curosr-pointer hover:underline"
                 >
-                    Reset Password
+                    Lupa Password
                 </Link>
             </div>
         </div>

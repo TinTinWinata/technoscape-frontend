@@ -1,13 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { IBackendInterface } from "../interfaces/backend/backend-response-interface";
 import {
-    IAcceptLoan,
     IGetLoan,
-    IPayLoan,
     IRequestLoan,
     IRequestLoanForm,
 } from "../interfaces/loan-interface";
-import { IBackendInterface } from "../interfaces/backend/backend-response-interface";
 import { endpoints } from "../settings/endpoint";
 import {
     toastError,
@@ -16,10 +14,10 @@ import {
     toastUpdateSuccess,
 } from "../settings/toast-setting";
 
-import { useUserAuth } from "./user-context";
 import { IParameter } from "../utils/parameter";
 import Service from "../utils/service";
 import useLoading from "./useLoading";
+import { useUserAuth } from "./user-context";
 
 interface ILoanContext {
     createLoanApproval: (loanData: IRequestLoanForm) => Promise<void>;
@@ -38,8 +36,7 @@ type ContentLayout = {
 export function LoanProvider({ children }: ContentLayout) {
     const { user } = useUserAuth();
     const [loan, setLoan] = useState<IGetLoan | null>(null);
-    console.log(loan);
-    const { onStart, onFinish, onError } = useLoading();
+    const { onStart, onFinish } = useLoading();
     const navigate = useNavigate();
 
     useEffect(() => {

@@ -31,6 +31,7 @@ interface UserEndpoint {
     changeForgotPassword: Endpoint;
     getBankAccount: Endpoint;
     validateForgotPassword: Endpoint;
+    pinVerification: Endpoint;
 }
 
 interface LoanEndpoint {
@@ -64,9 +65,9 @@ const authEndpoints: AuthEndpoint = {
 };
 
 const userEndpoints: UserEndpoint = {
-    getTransaction: {
+    pinVerification: {
         method: Method.POST,
-        url: "/user/transaction/info",
+        url: "/user/verify-pin",
     },
     userApprove: {
         method: Method.POST,
@@ -88,10 +89,6 @@ const userEndpoints: UserEndpoint = {
         url: "/user/profile",
         method: Method.GET,
     },
-    getBankAccount: {
-        url: "/user/bank-account",
-        method: Method.POST,
-    },
     updateProfilePictureUser: {
         url: "/user/update/profile-picture",
         method: Method.POST,
@@ -112,6 +109,16 @@ const userEndpoints: UserEndpoint = {
         url: "/forgot-password/validate",
         method: Method.POST,
     },
+    getTransaction: {
+        method: Method.POST,
+        url: "/user/transaction/info",
+    },
+
+    getBankAccount: {
+        url: "/user/bank-account",
+        method: Method.POST,
+    },
+
     createTransaction: {
         url: "/user/transaction/create-transaction",
         method: Method.POST,

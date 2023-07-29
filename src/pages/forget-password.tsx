@@ -37,15 +37,15 @@ export default function ForgetPassword() {
     return (
         <div className="">
             <Form
-                title="Forgot Password"
-                subTitle="Send your email and we’ll send you a link to reset a password."
+                title="Lupa Pasword"
+                subTitle="Kirimkan email Anda dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi."
                 width="450"
                 onSubmit={handleSubmit}
-                buttonName="Submit"
+                buttonName="Kirim"
             >
                 <Input
                     name="email"
-                    label="Enter Your Email"
+                    label="Masukan email anda"
                     icon={<MdEmail />}
                 />
             </Form>

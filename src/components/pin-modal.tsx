@@ -3,6 +3,10 @@ import { useState } from 'react';
 import VerificationInput from 'react-verification-input';
 import Button, { ButtonType } from '../components/button';
 import Modal, { IModalProps } from '../components/modal';
+import { useUserAuth } from '../hooks/user-context';
+import { endpoints } from '../settings/endpoint';
+import { toastError } from '../settings/toast-setting';
+import Service from '../utils/service';
 import { numberOnly } from '../utils/validator';
 
 export interface IPinModalProps extends IModalProps {
@@ -17,17 +21,33 @@ export default function PinModal({
   handleSuccess,
 }: IPinModalProps) {
   const [value, setValue] = useState<string>('');
-
+  const { user } = useUserAuth();
   const handleOnChange = (e: any) => {
     setValue(numberOnly(e));
   };
 
-  const handleOnClick = () => {
-    handleSuccess();
+  const handleOnClick = async () => {
+    if (user) {
+      const data = {
+        user_id: user.uid,
+        pin: value,
+      };
+      const service = new Service();
+      const response = await service.request<any>(
+        endpoints.user.pinVerification,
+        undefined,
+        data
+      );
+      if (response.success) {
+        handleSuccess();
+      } else {
+        toastError(response.errorMessage);
+      }
+    }
   };
 
   return (
-    <Modal open={open} setOpen={setOpen}>
+    <Modal open={open}>
       <>
         <div>
           {/* <div className="center mb-6 mt-3">
@@ -38,11 +58,11 @@ export default function PinModal({
               as="h3"
               className="text-lg leading-6 font-medium text-gray-900"
             >
-              Verify Your Account
+              Verifikasi akun Anda
             </Dialog.Title>
             <div className="mt-2">
               <p className="text-sm text-gray-500">
-                Please enter 6 digits pin that you have
+                Masukkan 6 digit pin yang Anda miliki
               </p>
               <p className="text-sm">{`This page will be expired in ${time} seconds`}</p>
               <div className="mt-10 mb-10 center">
@@ -63,7 +83,7 @@ export default function PinModal({
         </div>
         <div className="mt-5 sm:mt-6">
           <Button onClick={handleOnClick} buttonType={ButtonType.Active}>
-            CONFIRM
+            Konfirmasi
           </Button>
         </div>
       </>
