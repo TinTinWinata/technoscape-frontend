@@ -64,9 +64,9 @@ export default function Finish({ answers }: IFormFinishProps) {
       if (request.success) {
         setSuccess(true);
         approve();
-        toastSuccess('Succesfully activated account');
+        toastSuccess('Akun berhasil di aktivasi');
       } else {
-        toastError('Failed to activated account');
+        toastError('Tidak berhasil melakukan aktivasi akun');
       }
     }
   };

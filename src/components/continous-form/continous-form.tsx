@@ -44,24 +44,24 @@ export default function ContinousForm({ forms }: { forms: IFormQuestion[] }) {
       // Input Question
       if (inputRef.current) {
         if (inputRef.current.value.trim() == '') {
-          toastError('Please input the valid fields!');
+          toastError('Tolong masukan input yang benar !');
           return false;
         }
         try {
           parseInt(inputRef.current.value);
           return true;
         } catch (e) {
-          toastError('Please input a valid input!');
+          toastError('Tolong masukan input yang benar !');
         }
       } else {
-        toastError('Input is not found, please contact Amigo Team!');
+        toastError('Input tidak valid, tolong kontak tim Blue Jacket!');
         return false;
       }
     } else {
       if (activeBox !== DEFAULT_ACTIVE) {
         return true;
       }
-      toastError('You need to select at least one answer.');
+      toastError('Kamu harus memilih setidaknya satu jawaban.');
       return false;
     }
     return false;
