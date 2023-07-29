@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { InsideForm } from '../components/inside-form';
 import Navbar from '../components/navbar';
 import RpInput from '../components/rp-input';
@@ -7,10 +8,12 @@ import { useUserAuth } from '../hooks/user-context';
 
 export const Transfer = () => {
   const { user, transfer } = useUserAuth();
+  const navigate = useNavigate();
   const handleOnSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { noAccount, amount } = e.target;
     await transfer(noAccount.value, amount.value);
+    navigate('/home');
   };
   const { triggerPin } = usePin();
 

@@ -123,6 +123,26 @@ export function TakeLoan({ handleAcceptLoan, loan }: ITakeLoanprops) {
   );
 }
 
+export function AlreadyPayedLoan() {
+  return (
+    <div>
+      <div className="h-[160px] w-full relative">
+        <div className="abs-center w-52 h-52 ">
+          <Player src={'/animation/smile.json'} autoplay loop />
+        </div>
+      </div>
+      <div className="max-w-[250px] pb-2 text-center ">
+        <p className="text-center text-lg font-bold text-gray-700">
+          Terimakasih!
+        </p>
+        <p className="text-center text-sm text-gray-400">
+          Pembayaran atas pinjaman anda sudah di bayar !
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function LoanProgress() {
   const { getLoan, loan, acceptLoan, payLoan } = useLoan();
 
@@ -144,7 +164,12 @@ export function LoanProgress() {
         )}
       {loan &&
         loan.loan_approval.is_approved === true &&
-        loan.loan !== null && <LoanApproved loan={loan} />}
+        loan.loan !== null &&
+        loan.loan.is_payed === false && <LoanApproved loan={loan} />}
+      {loan &&
+        loan.loan_approval.is_approved === true &&
+        loan.loan !== null &&
+        loan.loan.is_payed === true && <AlreadyPayedLoan />}
     </div>
   );
 }

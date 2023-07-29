@@ -22,7 +22,12 @@ export default function PayLoan() {
 
   const calculateTotal = () => {
     if (!loan) return 0;
-    return loan.loan_approval.loan_amount;
+    return loan.loan_approval.loan_amount + calculateRate();
+  };
+
+  const calculateRate = () => {
+    if (!loan) return 0;
+    return (loan.loan_approval.rate * loan.loan_approval.loan_amount) / 100;
   };
 
   return (
@@ -65,6 +70,11 @@ export default function PayLoan() {
               )}
             </div>
             <hr className="w-full border border-opacity-50" />
+            <div className="flex justify-between p-3">
+              <div className="font-semibold">Bunga</div>
+              <div className=""></div>
+              <div className="">{manipulateMoney(calculateRate())}</div>
+            </div>
           </div>
           <div className="w-[30%]  mx-10 rounded-lg custom-shadow-2 ">
             <div className="relative overflow-hidden w-full h-32">

@@ -28,9 +28,9 @@ export const manipulateDate = (timestamp: number) => {
   return formattedDate;
 };
 
-export const dateToString = (value: Date): string => {
+export const dateToString = (value: any): string => {
   const date = checkDate(value);
-  return moment(date).format('MMM Do YY');
+  return moment(date).format('MMM Do YYYY');
 };
 
 export const dateToStringFromNow = (value: Date): string => {

@@ -1,5 +1,6 @@
 import { Dialog } from '@headlessui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import VerificationInput from 'react-verification-input';
 import Button, { ButtonType } from '../components/button';
 import Modal, { IModalProps } from '../components/modal';
@@ -22,15 +23,26 @@ export default function PinModal({
 }: IPinModalProps) {
   const [value, setValue] = useState<string>('');
   const { user } = useUserAuth();
+  const pinLength = 6;
+  const location = useLocation();
+
+  useEffect(() => {
+    setValue('');
+  }, [location]);
+
   const handleOnChange = (e: any) => {
-    setValue(numberOnly(e));
+    const temp = numberOnly(e);
+    setValue(temp);
+    if (temp.length === pinLength) {
+      handleOnClick(temp);
+    }
   };
 
-  const handleOnClick = async () => {
+  const handleOnClick = async (val?: string) => {
     if (user) {
       const data = {
         user_id: user.uid,
-        pin: value,
+        pin: val ? val : value,
       };
       const service = new Service();
       const response = await service.request<any>(
@@ -75,7 +87,7 @@ export default function PinModal({
                   }}
                   onChange={handleOnChange}
                   value={value}
-                  length={6}
+                  length={pinLength}
                 />
               </div>
             </div>

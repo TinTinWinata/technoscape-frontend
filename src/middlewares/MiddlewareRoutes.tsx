@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import Detail from '../pages/detail';
+import { Routes, useNavigate } from 'react-router-dom';
 
 export default function MiddlewareRoutes() {
   const navigate = useNavigate();
@@ -18,7 +17,7 @@ export default function MiddlewareRoutes() {
 
   return (
     <Routes>
-      <Route path="/detail" element={<Detail></Detail>}></Route>
+      {/* <Route path="/detail" element={<Detail></Detail>}></Route> */}
     </Routes>
   );
 }
