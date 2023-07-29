@@ -1,15 +1,20 @@
 import { Player } from '@lottiefiles/react-lottie-player';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import Button from '../components/button';
 import { InsideForm } from '../components/inside-form';
 import Navbar from '../components/navbar';
 import { useLoan } from '../hooks/loan-context';
+import { usePin } from '../hooks/pin-context';
 import { dateAddDay, dateDifference } from '../utils/date-manipulation';
 import { manipulateMoney } from '../utils/string-manipulation';
 
 export default function PayLoan() {
   const { payLoan, loan } = useLoan();
+  const { triggerPin } = usePin();
 
+  useEffect(() => {
+    triggerPin();
+  }, []);
   const handlePayloan = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     payLoan();

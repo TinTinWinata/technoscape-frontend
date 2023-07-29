@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PinModal from '../components/pin-modal';
 import { IChildrenProps } from '../interfaces/children-interface';
 
@@ -14,6 +14,8 @@ export function PinProvider({ children }: IChildrenProps) {
   const navigate = useNavigate();
   const [time, setTime] = useState<number>(0);
   const expireTime = 15;
+  const location = useLocation();
+  const whitelistPath = ['/transfer', '/pay-loan'];
 
   useEffect(() => {
     if (time <= 0 && !success && open) {
@@ -21,6 +23,13 @@ export function PinProvider({ children }: IChildrenProps) {
       restartState();
     }
   }, [time]);
+
+  useEffect(() => {
+    const { pathname } = location;
+    if (!whitelistPath.includes(pathname)) {
+      restartState();
+    }
+  }, [location]);
 
   const restartState = () => {
     setOpen(false);

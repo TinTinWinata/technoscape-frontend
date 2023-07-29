@@ -6,10 +6,10 @@ import {
   FcPortraitMode,
   FcViewDetails,
 } from 'react-icons/fc';
-import { TransactoinHistory } from '../../components/TransactionHistory';
 import Greeting from '../../components/greeting';
 import { LoanProgress } from '../../components/loan-progress';
 import Navbar from '../../components/navbar';
+import { TransactionHistory } from '../../components/transaction-history';
 import { usePin } from '../../hooks/pin-context';
 import { useUserAuth } from '../../hooks/user-context';
 import { convertSeparator } from '../../utils/string-manipulation';
@@ -99,7 +99,7 @@ export default function Home() {
               <hr className="my-3" />
               {transaction ? (
                 transaction?.transactions.map((transaction, index: number) => (
-                  <TransactoinHistory
+                  <TransactionHistory
                     key={index}
                     amount={transaction.amount}
                     createTime={transaction.transactionDate}
