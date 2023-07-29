@@ -14,7 +14,7 @@ import {
 
 export default function ForgetPassword() {
     const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
-        const toastId = toastLoading("Mohon ditunggu");
+        const toastId = toastLoading("Mohon tunggu");
         e.preventDefault();
         const { email } = e.target;
         const service = new Service();

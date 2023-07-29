@@ -11,6 +11,7 @@ import { endpoints } from "../settings/endpoint";
 import { IRegisterForm } from "../interfaces/backend/register-form-interface";
 import { IResetPassword } from "../interfaces/user-interface";
 import {
+    toastError,
     toastLoading,
     toastUpdateFailed,
     toastUpdateSuccess,
@@ -35,12 +36,13 @@ export default function ResetPassword() {
 
         if (response.success === false) {
             navigate("/");
+            const toastId = toastError("Page tidak ditemukan");
         }
     };
 
     const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const toastId = toastLoading("Mohon ditunggu");
+        const toastId = toastLoading("Mohon tunggu");
         const { newPassword, confirmPassword } = e.target;
 
         if (newPassword.value === confirmPassword.value) {

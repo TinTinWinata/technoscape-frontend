@@ -21,7 +21,6 @@ export default function LoginPage() {
       password: password.value,
       username: username.value,
     };
-    // console.log('login : ', login);
     login(dataForm);
   };
 
@@ -29,7 +28,7 @@ export default function LoginPage() {
     <div className="flex flex-col">
       <Form
         title="Selamat Datang"
-        subTitle="Masukkan kredensial Anda untuk mengakses akun Anda."
+        subTitle="Masukan kredensial Anda untuk mengakses akun Anda."
         width="450"
         onSubmit={handleLogin}
         buttonName="Masuk"
@@ -46,16 +45,20 @@ export default function LoginPage() {
           type="password"
           name="password"
         />
-      </Form>
-      <div className="text-sm mt-5 center gap-1">
-        <p className="text-secondaryFont">
-          Apakah anda lupa dengan password anda ?
-        </p>
         <Link
           to="/forgot-password"
-          className="text-primary curosr-pointer hover:underline"
+          className="text-primary curosr-pointer hover:underline text-end"
         >
           Lupa Password
+        </Link>
+      </Form>
+      <div className="text-sm mt-5 center gap-1">
+        <p className="text-secondaryFont">Anda belum punya akun ?</p>
+        <Link
+          to="/register"
+          className="text-primary curosr-pointer hover:underline font-bold"
+        >
+          Daftar Disini
         </Link>
       </div>
     </div>
