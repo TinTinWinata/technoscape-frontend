@@ -51,13 +51,13 @@ export default function Register() {
     };
 
     return (
-        <div className="grid grid-cols-3 w-[80%] rounded-lg">
+        <div className="grid grid-cols-3 w-[80%]  rounded-lg">
             <RegisterSlider />
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full">
                 <Form
                     title="Buat Akun Baru"
                     subTitle="Buat kredensial Anda sendiri untuk mengakses bisa aplikasi kami."
-                    width="w-full"
+                    width="450px"
                     onSubmit={handleRegister}
                     buttonName="Create Account"
                     formType={FormType.Register}

@@ -55,7 +55,7 @@ export default function Input({
                 type={filterType}
                 defaultValue={defaultValue}
                 disabled={disabled}
-                className={`absolute top-[50%] left-[10%] translate-y-[-50%] text-sm w-[90%] focus:none focus:outline-none  rounded`}
+                className={`absolute top-[50%] left-[10%] translate-y-[-50%] text-sm w-[90%] focus:none focus:outline-none  rounded `}
                 name={name}
                 placeholder={label}
             ></input>

@@ -47,16 +47,18 @@ export default function Login() {
                 />
                 <Link
                     to="/forgot-password"
-                    className="text-primary curosr-pointer hover:underline text-end"
+                    className="text-primary curosr-pointer hover:underline text-end text-xs xl:text-sm"
                 >
                     Lupa Password
                 </Link>
             </Form>
             <div className="text-sm mt-5 center gap-1">
-                <p className="text-secondaryFont">Anda belum punya akun ?</p>
+                <p className="text-secondaryFont text-xs xl:text-sm">
+                    Anda belum punya akun ?
+                </p>
                 <Link
                     to="/register"
-                    className="text-primary curosr-pointer hover:underline font-bold"
+                    className="text-primary curosr-pointer hover:underline font-bold text-xs xl:text-sm"
                 >
                     Daftar Disini
                 </Link>

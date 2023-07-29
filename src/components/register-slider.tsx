@@ -19,27 +19,9 @@ export function RegisterSlider() {
     ];
 
     const [slide, setSlide] = useState(0);
-    const [percentage, setPercentage] = useState(0);
-
     const nextSlide = () => {
         setSlide((prev) => (prev + 1) % imageData.length);
-        // setPercentage(
-        //     (percentage) => ((slide * 100) % (imageData.length * 100)) - 100
-        // );
-
-        // setPercentage((prev) => prev + 100);
-
-        // console.log(slide);
-
-        // console.log(percentage);
     };
-
-    // const moveSlide = () => {
-    //     setSlide((prev) => (prev + 1) % imageData.length);
-    //     const percentage =
-
-    //     return `translateX(${percentage}%)`;
-    // };
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -49,7 +31,7 @@ export function RegisterSlider() {
     }, []);
 
     return (
-        <div className="relative flex justify-center items-center overflow-hidden rounded-l-lg col-span-2 ">
+        <div className="relative flex justify-center items-center overflow-hidden rounded-l-lg col-span-2 w-full ">
             <div
                 className="w-full h-full flex duration-500 "
                 style={{
