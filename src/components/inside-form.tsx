@@ -1,6 +1,7 @@
 import { ChangeEvent } from 'react';
 import { FcMultipleDevices } from 'react-icons/fc';
 import Button, { ButtonType } from '../components/button';
+import InsideLayout from './inside-layout';
 
 export interface IInsideFormProps {
   onSubmit: (e: ChangeEvent<HTMLFormElement>) => void;
@@ -18,9 +19,9 @@ export const InsideForm = ({
   buttonTitle,
 }: IInsideFormProps) => {
   return (
-    <div className="flex justify-center absolute top-20 w-full z-10 ">
+    <InsideLayout>
       <div className="w-[80%] bg-white d-flex rounded-2xl shadow-2xl p-8">
-        <div className="w-full flex flex-row justify-between pb-4 border-b border-gray-500">
+        <div className="w-full flex flex-row justify-between pb-4 border-b border-gray-500 border-opacity-20">
           <div>
             <p className="font-bold text-4xl text-font">{title}</p>
             <p className="mt-2 text-gray-500 font-secondaryFont">{subTitle}</p>
@@ -38,6 +39,6 @@ export const InsideForm = ({
           )}
         </form>
       </div>
-    </div>
+    </InsideLayout>
   );
 };

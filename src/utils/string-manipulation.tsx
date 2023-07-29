@@ -28,9 +28,9 @@ export const manipulateDate = (timestamp: number) => {
   return formattedDate;
 };
 
-export const dateToString = (value: Date): string => {
+export const dateToString = (value: any): string => {
   const date = checkDate(value);
-  return moment(date).format('MMM Do YY');
+  return moment(date).format('MMM Do YYYY');
 };
 
 export const dateToStringFromNow = (value: Date): string => {
@@ -62,4 +62,8 @@ export function filterTextToNumberOnly(input: string): string {
   const result: string = numericCharacters ? numericCharacters.join('') : '';
 
   return result;
+}
+
+export function removeLastCharacter(str: string): string {
+  return str.substring(0, str.length - 1);
 }

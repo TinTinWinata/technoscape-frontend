@@ -19,6 +19,7 @@ export const RequestLoan = () => {
       loan_days_term: manipulateRangeLoan(loan_days_term.value),
       user: user.uid,
     };
+
     await createLoanApproval(loanData);
   };
 

@@ -1,3 +1,4 @@
+import { SkeletonTheme } from 'react-loading-skeleton';
 import { useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { PinProvider } from '../hooks/pin-context';
@@ -8,11 +9,13 @@ export default function MainLayout({ children }: IChildrenProps) {
   return (
     <div className="w-full h-full bg-background full ">
       <div className="w-full h-full ">
-        <ToastContainer />
-        {/* {isNeedLayout() && <Navbar></Navbar>} */}
-        <PinProvider>
-          <div className="w-full h-full center">{children}</div>
-        </PinProvider>
+        <SkeletonTheme>
+          <ToastContainer />
+          {/* {isNeedLayout() && <Navbar></Navbar>} */}
+          <PinProvider>
+            <div className="w-full h-full center">{children}</div>
+          </PinProvider>
+        </SkeletonTheme>
       </div>
     </div>
   );

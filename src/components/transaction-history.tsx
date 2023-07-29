@@ -1,4 +1,4 @@
-import { manipulateDate, manipulateMoney } from '../utils/string-manipulation';
+import { dateToString, manipulateMoney } from '../utils/string-manipulation';
 
 interface ITransactionHistoryProps {
   amount: number;
@@ -9,8 +9,8 @@ interface ITransactionHistoryProps {
 }
 
 enum TransferType {
-  transferIn = 'Transfer In',
-  transferOut = 'Transfer Out',
+  transferIn = 'Transfer masuk',
+  transferOut = 'Transfer keluar',
 }
 
 export function TransactionHistory({
@@ -28,20 +28,18 @@ export function TransactionHistory({
           <p>{accountNo}</p>
           <p className="text-gray-400">{receiverNo}</p>
         </div>
-        <div>
+        <div className="">
           {traxType === TransferType.transferIn ? (
-            <p className="text-green-600 font-bold text-xl">
+            <p className="text-green-600 text-right font-bold text-xl">
               {manipulateMoney(amount)}
             </p>
           ) : (
-            <p className="text-red-600 font-bold text-xl">
+            <p className="text-red-600 text-right font-bold text-xl">
               {manipulateMoney(amount)}
             </p>
           )}
 
-          <p className="text-gray-400 font-bold">
-            {manipulateDate(createTime)}
-          </p>
+          <p className="text-gray-400 font-bold">{dateToString(createTime)}</p>
         </div>
       </div>
     </div>

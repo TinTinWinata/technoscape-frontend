@@ -34,3 +34,7 @@ export const isAlphanumberic = (data: string) => {
     if (checkNumber && checkCharacter) return true;
     else return false;
 };
+
+export function isEmptyObject(obj: object): boolean {
+  return Object.keys(obj).length === 0;
+}
