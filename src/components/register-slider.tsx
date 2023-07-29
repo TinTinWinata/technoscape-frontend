@@ -3,15 +3,15 @@ import { useEffect, useState } from "react";
 export function RegisterSlider() {
     const imageData = [
         {
-            src: "https://picsum.photos/seed/img1/600/400",
+            src: "/bluejacket-team-2.png",
             alt: "Image 1 for carousel",
         },
         {
-            src: "https://picsum.photos/seed/img2/600/400",
+            src: "/bluejacket-team-3.png",
             alt: "Image 2 for carousel",
         },
         {
-            src: "https://picsum.photos/seed/img3/600/400",
+            src: "/bluejacket-team-4.png",
             alt: "Image 3 for carousel",
         },
     ];
@@ -47,7 +47,7 @@ export function RegisterSlider() {
     }, []);
 
     return (
-        <div className="hidden  relative md:flex justify-center items-center overflow-hidden rounded-l-lg col-span-2 ">
+        <div className="border-t border-l border-b border-gray-500 border-opacity-30 hidden h-[625px] relative md:flex justify-center items-center overflow-hidden rounded-l-lg col-span-2 ">
             <div
                 className="w-full h-full flex duration-500 "
                 style={{
