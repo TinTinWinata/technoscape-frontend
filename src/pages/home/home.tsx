@@ -14,10 +14,23 @@ import { usePin } from "../../hooks/pin-context";
 import { useUserAuth } from "../../hooks/user-context";
 import { convertSeparator } from "../../utils/string-manipulation";
 import HomeIcon from "./home-icon";
+import { useState } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 export default function Home() {
     const { user, bankInfo, transaction } = useUserAuth();
     const { triggerPin } = usePin();
+    const [showBalace, setShowBalance] = useState(false);
+
+    const toggleBalance = () => {
+        if (showBalace === true) {
+            setShowBalance(false);
+        } else {
+            setShowBalance(true);
+        }
+    };
+
+    console.log(bankInfo);
 
     return (
         <div className="w-full h-full relative">
@@ -41,12 +54,28 @@ export default function Home() {
                                         <p className="text-normal absolute left-0 top-0">
                                             Rp
                                         </p>
-                                        {bankInfo && (
-                                            <p className="indent-4 absolute top-[50%] translate-y-[-50%] left-5 text-3xl  font-bold">
-                                                {convertSeparator(
-                                                    bankInfo.balance.toString()
-                                                )}
-                                            </p>
+                                        {bankInfo && showBalace ? (
+                                            <div className="indent-4 absolute top-[50%] translate-y-[-50%] left-5 text-3xl  font-bold min-w-[250px] flex flex-row items-center justify-between">
+                                                <p>
+                                                    {convertSeparator(
+                                                        bankInfo.balance.toString()
+                                                    )}
+                                                </p>
+                                                <AiFillEyeInvisible
+                                                    onClick={toggleBalance}
+                                                    size={24}
+                                                    className="text-white z-20 cursor-pointer"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="indent-4 absolute top-[50%] translate-y-[-50%] left-5 text-3xl  font-bold min-w-[250px] flex flex-row items-center justify-between">
+                                                <p>********</p>
+                                                <AiFillEye
+                                                    onClick={toggleBalance}
+                                                    size={24}
+                                                    className="text-white z-20 cursor-pointer"
+                                                />
+                                            </div>
                                         )}
                                     </div>
                                 </div>
