@@ -26,7 +26,13 @@ interface IUserContext {
   fetchUser: () => Promise<void>;
   refetchInfo: () => Promise<void>;
   bankInfo: IBackendAccount | null;
+  fetchTransaction: (
+    account?: IBackendAccount,
+    filter?: undefined | 'TRANSFER_IN' | 'TRANSFER_OUT'
+  ) => Promise<void>;
   transaction: IBackendTransaction | null;
+  transactionLoading: boolean;
+  accountLoading: boolean;
   transfer: (receiverNumber: number, amount: number) => Promise<void>;
 }
 
@@ -42,6 +48,8 @@ export function UserProvider({ children }: ContentLayout) {
   const [transaction, setTransaction] = useState<IBackendTransaction | null>(
     null
   );
+  const [accountLoading, setAccountLoading] = useState<boolean>(true);
+  const [transactionLoading, setTransactionLoading] = useState<boolean>(true);
   const { onStart, onFinish } = useLoading();
   const navigate = useNavigate();
   const service: Service = new Service(undefined, true);
@@ -77,13 +85,18 @@ export function UserProvider({ children }: ContentLayout) {
     }
   };
 
-  const fetchTransaction = async (account?: IBackendAccount) => {
+  const fetchTransaction = async (
+    account?: IBackendAccount,
+    filter?: undefined | 'TRANSFER_IN' | 'TRANSFER_OUT'
+  ) => {
+    setTransactionLoading(true);
     const temp = account ? account : bankInfo;
     if (user && temp) {
       const service = new Service(user.accessToken);
       const data = {
         accountNo: temp.accountNo,
         pageNumber: 1,
+        transactionType: filter,
       };
       const response = await service.request<IBackendTransaction | null>(
         endpoints.user.getTransaction,
@@ -92,6 +105,7 @@ export function UserProvider({ children }: ContentLayout) {
       );
       setTransaction(response.data);
     }
+    setTransactionLoading(false);
   };
 
   const logout = () => {
@@ -143,14 +157,17 @@ export function UserProvider({ children }: ContentLayout) {
     );
   };
   const getBankInfo = async (): Promise<IBackendAccount | null> => {
+    setAccountLoading(true);
     if (user) {
       const service = new Service(user.accessToken);
       const response = await service.request<IBackendAccount>(
         endpoints.user.getBankAccount
       );
       fetchTransaction(response.data);
+      setAccountLoading(false);
       return response.data;
     }
+    setAccountLoading(false);
     return null;
   };
 
@@ -178,6 +195,8 @@ export function UserProvider({ children }: ContentLayout) {
   return (
     <userContext.Provider
       value={{
+        accountLoading,
+        transactionLoading,
         transaction,
         approve,
         logout,
@@ -185,6 +204,7 @@ export function UserProvider({ children }: ContentLayout) {
         login,
         user,
         isAuth,
+        fetchTransaction,
         fetchUser,
         bankInfo,
         refetchInfo,

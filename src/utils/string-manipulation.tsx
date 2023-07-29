@@ -63,3 +63,7 @@ export function filterTextToNumberOnly(input: string): string {
 
   return result;
 }
+
+export function removeLastCharacter(str: string): string {
+  return str.substring(0, str.length - 1);
+}

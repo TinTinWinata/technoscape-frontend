@@ -16,6 +16,7 @@ import {
 
 import { IParameter } from '../utils/parameter';
 import Service from '../utils/service';
+import { isEmptyObject } from '../utils/validator';
 import useLoading from './useLoading';
 import { useUserAuth } from './user-context';
 
@@ -53,16 +54,19 @@ export function LoanProvider({ children }: ContentLayout) {
       '',
       loanData
     );
-
     if (response.success) {
       if (response.data.prediction === 1) {
-        toastUpdateSuccess(toastId, 'Berhasil mengganti kata sandi');
+        toastUpdateSuccess(
+          toastId,
+          'Pengajuan anda diterima & sedang di proses'
+        );
       } else {
-        toastUpdateFailed(toastId, response.errorMessage);
+        toastUpdateFailed(toastId, 'Pengajuan anda ditolak!');
       }
+      getLoan();
       navigate('/home');
     } else {
-      onFinish(response.errorMessage, false);
+      toastUpdateFailed(toastId, response.errorMessage);
     }
   };
 
@@ -116,7 +120,9 @@ export function LoanProvider({ children }: ContentLayout) {
         '',
         parameters
       );
-      setLoan(response.data);
+      if (!isEmptyObject(response.data)) {
+        setLoan(response.data);
+      }
       return response.data;
     }
     return null;

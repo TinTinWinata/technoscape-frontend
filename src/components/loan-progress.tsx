@@ -26,10 +26,18 @@ export function LoanStillProgress() {
     </div>
   );
 }
-export function LoanNotApproved() {
+export function LoanNotApprovedByAI() {
   return (
     <div className="center text-center w-full h-full text-gray-400">
-      Peminjaman anda
+      Pengajuan peminjaman anda tidak diterima oleh kami
+    </div>
+  );
+}
+
+export function LoanNotApprovedByAdmin() {
+  return (
+    <div className="center text-center w-full h-full text-gray-400">
+      Peminjaman anda ditolak oleh admin
     </div>
   );
 }
@@ -155,18 +163,26 @@ export function LoanProgress() {
   return (
     <div className="w-full grow center">
       {loan === null && <NoHaveLoan />}
-      {loan && loan.loan_approval.is_approved === null && <LoanStillProgress />}
-      {loan && loan.loan_approval.is_approved === false && <LoanNotApproved />}
       {loan &&
+        loan.loan_approval &&
+        loan.loan_approval.is_approved === null && <LoanStillProgress />}
+      {loan && !loan.loan_approval && <LoanNotApprovedByAI />}
+      {loan &&
+        loan.loan_approval &&
+        loan.loan_approval.is_approved === false && <LoanNotApprovedByAdmin />}
+      {loan &&
+        loan.loan_approval &&
         loan.loan_approval.is_approved === true &&
         loan.loan === null && (
           <TakeLoan handleAcceptLoan={handleAcceptLoan} loan={loan} />
         )}
       {loan &&
+        loan.loan_approval &&
         loan.loan_approval.is_approved === true &&
         loan.loan !== null &&
         loan.loan.is_payed === false && <LoanApproved loan={loan} />}
       {loan &&
+        loan.loan_approval &&
         loan.loan_approval.is_approved === true &&
         loan.loan !== null &&
         loan.loan.is_payed === true && <AlreadyPayedLoan />}

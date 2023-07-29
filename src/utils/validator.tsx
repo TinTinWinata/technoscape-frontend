@@ -16,3 +16,7 @@ export const isNumber = (input: string) => {
   // Check if the result of the conversion is a valid number
   return !isNaN(numberValue);
 };
+
+export function isEmptyObject(obj: object): boolean {
+  return Object.keys(obj).length === 0;
+}

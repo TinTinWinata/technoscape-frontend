@@ -9,8 +9,8 @@ interface ITransactionHistoryProps {
 }
 
 enum TransferType {
-  transferIn = 'Transfer In',
-  transferOut = 'Transfer Out',
+  transferIn = 'Transfer masuk',
+  transferOut = 'Transfer keluar',
 }
 
 export function TransactionHistory({

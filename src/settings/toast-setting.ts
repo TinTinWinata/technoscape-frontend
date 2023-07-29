@@ -45,7 +45,10 @@ export function toastUpdateSuccess(id: Id, text: string = 'Success') {
     draggable: true,
   });
 }
-export function toastUpdateFailed(id: Id, text: string = 'Failed!') {
+export function toastUpdateFailed(
+  id: Id,
+  text: string = 'Failed, please contact Blue Jacket Team!'
+) {
   toast.update(id, {
     render: text,
     type: 'error',
