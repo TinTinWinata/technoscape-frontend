@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PinModal from '../components/pin-modal';
 import { IChildrenProps } from '../interfaces/children-interface';
@@ -15,6 +15,18 @@ export function PinProvider({ children }: IChildrenProps) {
   const [time, setTime] = useState<number>(0);
   const expireTime = 15;
 
+  useEffect(() => {
+    if (time <= 0 && !success && open) {
+      navigate(-1);
+      restartState();
+    }
+  }, [time]);
+
+  const restartState = () => {
+    setOpen(false);
+    setSuccess(false);
+  };
+
   const triggerPin = () => {
     setTime(expireTime);
     const interval = setInterval(() => {
@@ -22,15 +34,9 @@ export function PinProvider({ children }: IChildrenProps) {
     }, 1000);
     setOpen(true);
     setTimeout(() => {
-      if (success) {
-        // Success
-      } else {
-        navigate(-1);
-        // Tidak success
-      }
-      setOpen(false);
+      restartState();
       clearInterval(interval);
-    }, expireTime * 1000);
+    }, (expireTime + 100) * 1000);
   };
 
   const handleSuccess = () => {
