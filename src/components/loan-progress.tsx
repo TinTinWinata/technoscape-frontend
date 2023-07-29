@@ -176,6 +176,7 @@ export function LoanProgress() {
       {loan &&
         loan.loan_approval &&
         loan.loan_approval.is_approved === false && <LoanNotApprovedByAdmin />}
+      {console.log(loan)}
       {loan &&
         loan.loan_approval &&
         loan.loan_approval.is_approved === true &&

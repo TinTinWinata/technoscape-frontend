@@ -46,9 +46,9 @@ export default function Register() {
   };
 
   return (
-    <div className="md:grid flex items-center justify-center  md:items-stretch    grid-cols-1 md:grid-cols-3 w-[80%] rounded-lg">
+    <div className="md:grid max-w-screen-md pr-60 flex items-center justify-center  md:items-stretch    grid-cols-1 md:grid-cols-3 w-[80%] rounded-lg">
       <RegisterSlider />
-      <div className="flex flex-col">
+      <div className="flex flex-col ">
         <Form
           title="Buat Akun Baru"
           subTitle="Buat kredensial Anda sendiri untuk mengakses bisa aplikasi kami."
